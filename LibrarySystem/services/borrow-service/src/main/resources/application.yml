@@ -1,0 +1,61 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: borrow-service
+
+  # 数据库配置 - 使用容器名 mysql-borrow
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql-borrow:3306/borrow_db?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:library_user}
+    password: ${MYSQL_PASSWORD:library123}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+logging:
+  level:
+    com.zjgsu.librarymanagement: DEBUG
+  file:
+    name: logs/borrow-service.log
+
+# 关键修改：将 localhost 改为 Docker 容器名
+app:
+  service:
+    book:
+      url: http://book-service:8081/api  # 改为容器名
+    user:
+      url: http://user-service:8083/api   # 改为容器名
+  borrow:
+    default-days: 30
+    renew-days: 15
+    max-renew-count: 1
+    max-borrow-count: 5
+  jwt:
+    secret: ${JWT_SECRET:library-management-secret-key-2024}
+    expiration: 86400
+
+# Feign 配置
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 10000
+        loggerLevel: basic

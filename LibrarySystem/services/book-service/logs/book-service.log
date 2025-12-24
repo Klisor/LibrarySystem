@@ -1,0 +1,238 @@
+2025-12-23 00:12:22 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.author,
+        b1_0.available_copies,
+        b1_0.category,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.description,
+        b1_0.isbn,
+        b1_0.location,
+        b1_0.publish_year,
+        b1_0.publisher,
+        b1_0.title,
+        b1_0.total_copies,
+        b1_0.updated_at 
+    from
+        books b1_0 
+    where
+        b1_0.id=?
+2025-12-23 00:13:28 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:13:28 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-12-23 00:13:28 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-12-23 00:13:32 [restartedMain] INFO  c.z.l.BookServiceApplication - Starting BookServiceApplication using Java 17.0.16 with PID 28716 (D:\微服务大作业\book-service\target\classes started by Klisor in D:\微服务大作业\book-service)
+2025-12-23 00:13:32 [restartedMain] DEBUG c.z.l.BookServiceApplication - Running with Spring Boot v3.1.5, Spring v6.0.13
+2025-12-23 00:13:32 [restartedMain] INFO  c.z.l.BookServiceApplication - The following 1 profile is active: "dev"
+2025-12-23 00:13:32 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-23 00:13:32 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-23 00:13:33 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-23 00:13:34 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 75 ms. Found 1 JPA repository interfaces.
+2025-12-23 00:13:34 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.zjgsu.librarymanagement]' package. Please check your configuration.
+2025-12-23 00:13:34 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=6c6dc941-c7e3-3608-9575-174b397d9bc7
+2025-12-23 00:13:35 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+2025-12-23 00:13:35 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 00:13:35 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-12-23 00:13:35 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-12-23 00:13:35 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3239 ms
+2025-12-23 00:13:36 [restartedMain] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-12-23 00:13:36 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-23 00:13:36 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2025-12-23 00:13:36 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2025-12-23 00:13:37 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-23 00:13:37 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-23 00:13:37 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-23 00:13:37 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-23 00:13:37 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table books 
+       modify column category TINYINT default 10 not null
+2025-12-23 00:13:37 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:13:38 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - JSqlParser is in classpath; If applicable, JSqlParser will be used
+2025-12-23 00:13:38 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-23 00:13:40 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+2025-12-23 00:13:41 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-12-23 00:13:41 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path '/api'
+2025-12-23 00:13:41 [restartedMain] INFO  c.z.l.BookServiceApplication - Started BookServiceApplication in 9.865 seconds (process running for 10.421)
+2025-12-23 00:13:49 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 00:13:49 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 00:13:49 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-23 00:13:49 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.author,
+        b1_0.available_copies,
+        b1_0.category,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.description,
+        b1_0.isbn,
+        b1_0.location,
+        b1_0.publish_year,
+        b1_0.publisher,
+        b1_0.title,
+        b1_0.total_copies,
+        b1_0.updated_at 
+    from
+        books b1_0 
+    where
+        b1_0.id=?
+2025-12-23 00:27:37 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.author,
+        b1_0.available_copies,
+        b1_0.category,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.description,
+        b1_0.isbn,
+        b1_0.location,
+        b1_0.publish_year,
+        b1_0.publisher,
+        b1_0.title,
+        b1_0.total_copies,
+        b1_0.updated_at 
+    from
+        books b1_0 
+    where
+        b1_0.id=?
+2025-12-23 00:56:31 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.author,
+        b1_0.available_copies,
+        b1_0.category,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.description,
+        b1_0.isbn,
+        b1_0.location,
+        b1_0.publish_year,
+        b1_0.publisher,
+        b1_0.title,
+        b1_0.total_copies,
+        b1_0.updated_at 
+    from
+        books b1_0 
+    where
+        b1_0.id=?
+2025-12-23 00:59:50 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.author,
+        b1_0.available_copies,
+        b1_0.category,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.description,
+        b1_0.isbn,
+        b1_0.location,
+        b1_0.publish_year,
+        b1_0.publisher,
+        b1_0.title,
+        b1_0.total_copies,
+        b1_0.updated_at 
+    from
+        books b1_0 
+    where
+        b1_0.id=?
+2025-12-23 01:00:03 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.author,
+        b1_0.available_copies,
+        b1_0.category,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.description,
+        b1_0.isbn,
+        b1_0.location,
+        b1_0.publish_year,
+        b1_0.publisher,
+        b1_0.title,
+        b1_0.total_copies,
+        b1_0.updated_at 
+    from
+        books b1_0 
+    where
+        b1_0.id=?
+2025-12-23 01:01:01 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.author,
+        b1_0.available_copies,
+        b1_0.category,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.description,
+        b1_0.isbn,
+        b1_0.location,
+        b1_0.publish_year,
+        b1_0.publisher,
+        b1_0.title,
+        b1_0.total_copies,
+        b1_0.updated_at 
+    from
+        books b1_0 
+    where
+        b1_0.id=?
+2025-12-23 01:01:15 [http-nio-8081-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.author,
+        b1_0.available_copies,
+        b1_0.category,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.description,
+        b1_0.isbn,
+        b1_0.location,
+        b1_0.publish_year,
+        b1_0.publisher,
+        b1_0.title,
+        b1_0.total_copies,
+        b1_0.updated_at 
+    from
+        books b1_0 
+    where
+        b1_0.id=?
+2025-12-23 01:01:18 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.author,
+        b1_0.available_copies,
+        b1_0.category,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.description,
+        b1_0.isbn,
+        b1_0.location,
+        b1_0.publish_year,
+        b1_0.publisher,
+        b1_0.title,
+        b1_0.total_copies,
+        b1_0.updated_at 
+    from
+        books b1_0 
+    where
+        b1_0.id=?
+2025-12-23 01:01:19 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.author,
+        b1_0.available_copies,
+        b1_0.category,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.description,
+        b1_0.isbn,
+        b1_0.location,
+        b1_0.publish_year,
+        b1_0.publisher,
+        b1_0.title,
+        b1_0.total_copies,
+        b1_0.updated_at 
+    from
+        books b1_0 
+    where
+        b1_0.id=?

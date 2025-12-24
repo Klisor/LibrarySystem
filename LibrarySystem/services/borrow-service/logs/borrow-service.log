@@ -1,0 +1,933 @@
+2025-12-23 00:03:30 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        count(b1_0.id) 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.user_id=?
+2025-12-23 00:03:30 [http-nio-8082-exec-2] ERROR c.z.l.service.impl.BorrowServiceImpl - 检查用户借阅资格失败: Cannot invoke "java.lang.Integer.intValue()" because the return value of "com.zjgsu.librarymanagement.model.dto.UserDTO.getMaxBorrowCount()" is null
+2025-12-23 00:03:30 [http-nio-8082-exec-2] ERROR c.z.l.service.impl.BorrowServiceImpl - 借书失败: 用户已达到最大借阅数量
+2025-12-23 00:03:30 [http-nio-8082-exec-2] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 借书失败: 用户已达到最大借阅数量
+2025-12-23 00:03:30 [http-nio-8082-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 借书失败: 用户已达到最大借阅数量]
+2025-12-23 00:12:02 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:12:02 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-12-23 00:12:02 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-12-23 00:12:09 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Starting BorrowServiceApplication using Java 17.0.16 with PID 16344 (D:\微服务大作业\borrow-service\target\classes started by Klisor in D:\微服务大作业\borrow-service)
+2025-12-23 00:12:09 [restartedMain] DEBUG c.z.l.BorrowServiceApplication - Running with Spring Boot v3.1.5, Spring v6.0.13
+2025-12-23 00:12:09 [restartedMain] INFO  c.z.l.BorrowServiceApplication - The following 1 profile is active: "dev"
+2025-12-23 00:12:09 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-23 00:12:09 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-23 00:12:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-23 00:12:12 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 128 ms. Found 1 JPA repository interfaces.
+2025-12-23 00:12:12 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'borrowRecordRepository' and 'com.zjgsu.librarymanagement.repository.BorrowRecordRepository' mapperInterface. Bean already defined with the same name!
+2025-12-23 00:12:12 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.zjgsu.librarymanagement]' package. Please check your configuration.
+2025-12-23 00:12:12 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=64163aea-78f2-355a-863e-2db6bc618fe0
+2025-12-23 00:12:14 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2025-12-23 00:12:14 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 00:12:14 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-12-23 00:12:14 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-12-23 00:12:14 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4387 ms
+2025-12-23 00:12:15 [restartedMain] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-12-23 00:12:16 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-23 00:12:16 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2025-12-23 00:12:16 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2025-12-23 00:12:16 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-23 00:12:16 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-23 00:12:16 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-23 00:12:17 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-23 00:12:17 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:12:17 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - JSqlParser is in classpath; If applicable, JSqlParser will be used
+2025-12-23 00:12:17 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-23 00:12:18 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-12-23 00:12:21 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-12-23 00:12:21 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/api'
+2025-12-23 00:12:21 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Started BorrowServiceApplication in 12.555 seconds (process running for 13.118)
+2025-12-23 00:12:21 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 00:12:21 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 00:12:21 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-23 00:12:22 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        count(b1_0.id) 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.user_id=?
+2025-12-23 00:12:22 [http-nio-8082-exec-1] WARN  c.z.l.service.impl.BorrowServiceImpl - 用户最大借阅数量为null，使用默认值: 5
+2025-12-23 00:12:22 [http-nio-8082-exec-1] ERROR c.z.l.service.impl.BorrowServiceImpl - 借书失败: Cannot invoke "java.lang.Integer.intValue()" because the return value of "com.zjgsu.librarymanagement.model.dto.BookDTO.getAvailableCopies()" is null
+2025-12-23 00:12:22 [http-nio-8082-exec-1] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 借书失败: Cannot invoke "java.lang.Integer.intValue()" because the return value of "com.zjgsu.librarymanagement.model.dto.BookDTO.getAvailableCopies()" is null
+2025-12-23 00:12:22 [http-nio-8082-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 借书失败: Cannot invoke "java.lang.Integer.intValue()" because the return value of "com.zjgsu.librarymanagement.model.dto.BookDTO.getAvailableCopies()" is null]
+2025-12-23 00:12:43 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:12:43 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-12-23 00:12:43 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-12-23 00:12:50 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Starting BorrowServiceApplication using Java 17.0.16 with PID 524 (D:\微服务大作业\borrow-service\target\classes started by Klisor in D:\微服务大作业\borrow-service)
+2025-12-23 00:12:50 [restartedMain] DEBUG c.z.l.BorrowServiceApplication - Running with Spring Boot v3.1.5, Spring v6.0.13
+2025-12-23 00:12:50 [restartedMain] INFO  c.z.l.BorrowServiceApplication - The following 1 profile is active: "dev"
+2025-12-23 00:12:50 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-23 00:12:50 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-23 00:12:52 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-23 00:12:52 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 65 ms. Found 1 JPA repository interfaces.
+2025-12-23 00:12:52 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'borrowRecordRepository' and 'com.zjgsu.librarymanagement.repository.BorrowRecordRepository' mapperInterface. Bean already defined with the same name!
+2025-12-23 00:12:52 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.zjgsu.librarymanagement]' package. Please check your configuration.
+2025-12-23 00:12:52 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=64163aea-78f2-355a-863e-2db6bc618fe0
+2025-12-23 00:12:53 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2025-12-23 00:12:53 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 00:12:53 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-12-23 00:12:54 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-12-23 00:12:54 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3320 ms
+2025-12-23 00:12:54 [restartedMain] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-12-23 00:12:55 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-23 00:12:55 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2025-12-23 00:12:55 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2025-12-23 00:12:56 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-23 00:12:56 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-23 00:12:56 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-23 00:12:56 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-23 00:12:56 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:12:57 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - JSqlParser is in classpath; If applicable, JSqlParser will be used
+2025-12-23 00:12:57 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-23 00:12:57 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-12-23 00:12:59 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-12-23 00:12:59 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/api'
+2025-12-23 00:13:00 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Started BorrowServiceApplication in 10.327 seconds (process running for 10.837)
+2025-12-23 00:13:48 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 00:13:48 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 00:13:48 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-23 00:13:48 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 开始检查用户借阅资格 - userId: 1
+2025-12-23 00:13:48 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户信息 - userId: 1, username: null, maxBorrowCount: null, borrowedCount: null
+2025-12-23 00:13:48 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        count(b1_0.id) 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.user_id=?
+2025-12-23 00:13:48 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 当前借阅数量: 0
+2025-12-23 00:13:48 [http-nio-8082-exec-2] WARN  c.z.l.service.impl.BorrowServiceImpl - 用户最大借阅数量为null，使用默认值5
+2025-12-23 00:13:48 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户借阅资格检查结果: canBorrow = true (0 < 5)
+2025-12-23 00:13:49 [http-nio-8082-exec-2] ERROR c.z.l.service.impl.BorrowServiceImpl - 借书失败: Cannot invoke "java.lang.Integer.intValue()" because the return value of "com.zjgsu.librarymanagement.model.dto.BookDTO.getAvailableCopies()" is null
+2025-12-23 00:13:49 [http-nio-8082-exec-2] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 借书失败: Cannot invoke "java.lang.Integer.intValue()" because the return value of "com.zjgsu.librarymanagement.model.dto.BookDTO.getAvailableCopies()" is null
+2025-12-23 00:13:49 [http-nio-8082-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 借书失败: Cannot invoke "java.lang.Integer.intValue()" because the return value of "com.zjgsu.librarymanagement.model.dto.BookDTO.getAvailableCopies()" is null]
+2025-12-23 00:27:04 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:27:04 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-12-23 00:27:04 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-12-23 00:27:12 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Starting BorrowServiceApplication using Java 17.0.16 with PID 30464 (D:\微服务大作业\borrow-service\target\classes started by Klisor in D:\微服务大作业\borrow-service)
+2025-12-23 00:27:12 [restartedMain] DEBUG c.z.l.BorrowServiceApplication - Running with Spring Boot v3.1.5, Spring v6.0.13
+2025-12-23 00:27:12 [restartedMain] INFO  c.z.l.BorrowServiceApplication - The following 1 profile is active: "dev"
+2025-12-23 00:27:12 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-23 00:27:12 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-23 00:27:14 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-23 00:27:14 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 74 ms. Found 1 JPA repository interfaces.
+2025-12-23 00:27:14 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'borrowRecordRepository' and 'com.zjgsu.librarymanagement.repository.BorrowRecordRepository' mapperInterface. Bean already defined with the same name!
+2025-12-23 00:27:14 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.zjgsu.librarymanagement]' package. Please check your configuration.
+2025-12-23 00:27:14 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=26fa1023-6300-352b-9a35-11eb9f19bb5b
+2025-12-23 00:27:15 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2025-12-23 00:27:16 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 00:27:16 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-12-23 00:27:16 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-12-23 00:27:16 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3482 ms
+2025-12-23 00:27:16 [restartedMain] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-12-23 00:27:17 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-23 00:27:17 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2025-12-23 00:27:17 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2025-12-23 00:27:18 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-23 00:27:18 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-23 00:27:18 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-23 00:27:19 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-23 00:27:19 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:27:19 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - JSqlParser is in classpath; If applicable, JSqlParser will be used
+2025-12-23 00:27:19 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-23 00:27:20 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-12-23 00:27:22 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-12-23 00:27:22 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/api'
+2025-12-23 00:27:22 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Started BorrowServiceApplication in 10.843 seconds (process running for 11.388)
+2025-12-23 00:27:36 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 00:27:36 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 00:27:36 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理借书请求 ===
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 请求数据: BorrowRequest(userId=1, bookId=2)
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户服务地址: http://localhost:8083/api
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 图书服务地址: http://localhost:8081/api
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 1. 调用用户服务 - URL: http://localhost:8083/api, userId: 1
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户服务响应: UserDTO(id=null, username=null, email=null, maxBorrowCount=null, password=null, borrowedCount=null, role=USER)
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户数据详情: id=null, username=null, maxBorrowCount=null, borrowedCount=null
+2025-12-23 00:27:37 [http-nio-8082-exec-2] WARN  c.z.l.service.impl.BorrowServiceImpl - 用户 null 的 maxBorrowCount 为 null
+2025-12-23 00:27:37 [http-nio-8082-exec-2] WARN  c.z.l.service.impl.BorrowServiceImpl - 用户 null 的 borrowedCount 为 null
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 2. 检查用户借阅资格
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 开始检查用户借阅资格 - userId: 1
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户信息 - userId: 1, username: null, maxBorrowCount: null, borrowedCount: null
+2025-12-23 00:27:37 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        count(b1_0.id) 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.user_id=?
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 当前借阅数量: 0
+2025-12-23 00:27:37 [http-nio-8082-exec-2] WARN  c.z.l.service.impl.BorrowServiceImpl - 用户最大借阅数量为null，使用默认值5
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户借阅资格检查结果: canBorrow = true (0 < 5)
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 3. 调用图书服务 - URL: http://localhost:8081/api, bookId: 2
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 图书服务响应: BookDTO(id=null, isbn=null, title=null, author=null, publisher=null, publishYear=null, category=10, totalCopies=1, availableCopies=null, location=null, description=null, createdAt=null, updatedAt=null)
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 图书数据详情: id=null, title=null, availableCopies=null, totalCopies=1
+2025-12-23 00:27:37 [http-nio-8082-exec-2] ERROR c.z.l.service.impl.BorrowServiceImpl - 图书 null 的 availableCopies 为 null
+2025-12-23 00:27:37 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 4. 检查图书库存
+2025-12-23 00:27:37 [http-nio-8082-exec-2] ERROR c.z.l.service.impl.BorrowServiceImpl - 图书 availableCopies 为 null! bookId: 2
+2025-12-23 00:27:37 [http-nio-8082-exec-2] ERROR c.z.l.service.impl.BorrowServiceImpl - 借书业务异常: 图书库存数据异常，请联系管理员
+2025-12-23 00:27:37 [http-nio-8082-exec-2] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 图书库存数据异常，请联系管理员
+2025-12-23 00:27:37 [http-nio-8082-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 图书库存数据异常，请联系管理员]
+2025-12-23 00:38:36 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:38:36 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-12-23 00:38:36 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-12-23 00:39:36 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Starting BorrowServiceApplication using Java 17.0.16 with PID 20436 (D:\微服务大作业\borrow-service\target\classes started by Klisor in D:\微服务大作业\borrow-service)
+2025-12-23 00:39:36 [restartedMain] DEBUG c.z.l.BorrowServiceApplication - Running with Spring Boot v3.1.5, Spring v6.0.13
+2025-12-23 00:39:36 [restartedMain] INFO  c.z.l.BorrowServiceApplication - The following 1 profile is active: "dev"
+2025-12-23 00:39:36 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-23 00:39:36 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-23 00:39:38 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-23 00:39:38 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 86 ms. Found 1 JPA repository interfaces.
+2025-12-23 00:39:38 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'borrowRecordRepository' and 'com.zjgsu.librarymanagement.repository.BorrowRecordRepository' mapperInterface. Bean already defined with the same name!
+2025-12-23 00:39:38 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.zjgsu.librarymanagement]' package. Please check your configuration.
+2025-12-23 00:39:38 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=b0865f46-69fa-39ba-82f9-003509eac832
+2025-12-23 00:39:39 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2025-12-23 00:39:39 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 00:39:39 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-12-23 00:39:39 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-12-23 00:39:39 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3222 ms
+2025-12-23 00:39:40 [restartedMain] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-12-23 00:39:41 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-23 00:39:41 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2025-12-23 00:39:41 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2025-12-23 00:39:41 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-23 00:39:41 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-23 00:39:41 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-23 00:39:42 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-23 00:39:42 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:39:42 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - JSqlParser is in classpath; If applicable, JSqlParser will be used
+2025-12-23 00:39:42 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-23 00:39:43 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-12-23 00:39:45 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-12-23 00:39:45 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/api'
+2025-12-23 00:39:45 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Started BorrowServiceApplication in 9.907 seconds (process running for 10.46)
+2025-12-23 00:39:52 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 00:39:52 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 00:39:52 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-23 00:39:52 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理借书请求 ===
+2025-12-23 00:39:52 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 请求数据: BorrowRequest(userId=1, bookId=2)
+2025-12-23 00:39:52 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户服务地址: http://localhost:8083/api
+2025-12-23 00:39:52 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 图书服务地址: http://localhost:8081/api
+2025-12-23 00:39:52 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 1. 调用用户服务 - URL: http://localhost:8083/api, userId: 1
+2025-12-23 00:39:52 [http-nio-8082-exec-1] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 00:39:52 [http-nio-8082-exec-1] ERROR c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息异常 - userId: 1, error: [401] during [GET] to [http://localhost:8083/api/users/1] [UserServiceClient#getUserById(Long)]: [{
+  "timestamp" : "2025-12-23 00:39:52",
+  "status" : 401,
+  "error" : "Unauthorized",
+  "message" : "缺少token",
+  "path" : "/api/users/1"
+}]
+2025-12-23 00:39:52 [http-nio-8082-exec-1] ERROR c.z.l.service.impl.BorrowServiceImpl - 借书业务异常: 用户不存在
+2025-12-23 00:39:52 [http-nio-8082-exec-1] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 用户不存在
+2025-12-23 00:39:52 [http-nio-8082-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 用户不存在]
+2025-12-23 00:39:56 [http-nio-8082-exec-3] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理借书请求 ===
+2025-12-23 00:39:56 [http-nio-8082-exec-3] INFO  c.z.l.service.impl.BorrowServiceImpl - 请求数据: BorrowRequest(userId=1, bookId=2)
+2025-12-23 00:39:56 [http-nio-8082-exec-3] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户服务地址: http://localhost:8083/api
+2025-12-23 00:39:56 [http-nio-8082-exec-3] INFO  c.z.l.service.impl.BorrowServiceImpl - 图书服务地址: http://localhost:8081/api
+2025-12-23 00:39:56 [http-nio-8082-exec-3] INFO  c.z.l.service.impl.BorrowServiceImpl - 1. 调用用户服务 - URL: http://localhost:8083/api, userId: 1
+2025-12-23 00:39:56 [http-nio-8082-exec-3] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 00:39:56 [http-nio-8082-exec-3] ERROR c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息异常 - userId: 1, error: [401] during [GET] to [http://localhost:8083/api/users/1] [UserServiceClient#getUserById(Long)]: [{
+  "timestamp" : "2025-12-23 00:39:56",
+  "status" : 401,
+  "error" : "Unauthorized",
+  "message" : "缺少token",
+  "path" : "/api/users/1"
+}]
+2025-12-23 00:39:56 [http-nio-8082-exec-3] ERROR c.z.l.service.impl.BorrowServiceImpl - 借书业务异常: 用户不存在
+2025-12-23 00:39:56 [http-nio-8082-exec-3] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 用户不存在
+2025-12-23 00:39:56 [http-nio-8082-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 用户不存在]
+2025-12-23 00:42:05 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:42:05 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-12-23 00:42:05 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-12-23 00:42:11 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Starting BorrowServiceApplication using Java 17.0.16 with PID 26960 (D:\微服务大作业\borrow-service\target\classes started by Klisor in D:\微服务大作业\borrow-service)
+2025-12-23 00:42:11 [restartedMain] DEBUG c.z.l.BorrowServiceApplication - Running with Spring Boot v3.1.5, Spring v6.0.13
+2025-12-23 00:42:11 [restartedMain] INFO  c.z.l.BorrowServiceApplication - The following 1 profile is active: "dev"
+2025-12-23 00:42:11 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-23 00:42:11 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-23 00:42:13 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-23 00:42:13 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 85 ms. Found 1 JPA repository interfaces.
+2025-12-23 00:42:13 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'borrowRecordRepository' and 'com.zjgsu.librarymanagement.repository.BorrowRecordRepository' mapperInterface. Bean already defined with the same name!
+2025-12-23 00:42:13 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.zjgsu.librarymanagement]' package. Please check your configuration.
+2025-12-23 00:42:13 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=b0865f46-69fa-39ba-82f9-003509eac832
+2025-12-23 00:42:14 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2025-12-23 00:42:14 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 00:42:14 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-12-23 00:42:15 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-12-23 00:42:15 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3402 ms
+2025-12-23 00:42:15 [restartedMain] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-12-23 00:42:16 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-23 00:42:16 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2025-12-23 00:42:16 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2025-12-23 00:42:17 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-23 00:42:17 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-23 00:42:17 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-23 00:42:17 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-23 00:42:17 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:42:18 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - JSqlParser is in classpath; If applicable, JSqlParser will be used
+2025-12-23 00:42:18 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-23 00:42:19 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-12-23 00:42:21 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-12-23 00:42:21 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/api'
+2025-12-23 00:42:21 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Started BorrowServiceApplication in 11.041 seconds (process running for 11.571)
+2025-12-23 00:42:27 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 00:42:27 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 00:42:27 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-23 00:42:27 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理借书请求 ===
+2025-12-23 00:42:27 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 请求数据: BorrowRequest(userId=1, bookId=2)
+2025-12-23 00:42:27 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户服务地址: http://localhost:8083/api
+2025-12-23 00:42:27 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 图书服务地址: http://localhost:8081/api
+2025-12-23 00:42:27 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 1. 调用用户服务 - URL: http://localhost:8083/api, userId: 1
+2025-12-23 00:42:27 [http-nio-8082-exec-1] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 00:42:27 [http-nio-8082-exec-1] ERROR c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息异常 - userId: 1, error: [401] during [GET] to [http://localhost:8083/api/users/1] [UserServiceClient#getUserById(Long)]: [{
+  "timestamp" : "2025-12-23 00:42:27",
+  "status" : 401,
+  "error" : "Unauthorized",
+  "message" : "缺少token",
+  "path" : "/api/users/1"
+}]
+2025-12-23 00:42:27 [http-nio-8082-exec-1] ERROR c.z.l.service.impl.BorrowServiceImpl - 借书业务异常: 用户不存在
+2025-12-23 00:42:27 [http-nio-8082-exec-1] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 用户不存在
+2025-12-23 00:42:27 [http-nio-8082-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 用户不存在]
+2025-12-23 00:47:07 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:47:07 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-12-23 00:47:07 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-12-23 00:47:38 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Starting BorrowServiceApplication using Java 17.0.16 with PID 21716 (D:\微服务大作业\borrow-service\target\classes started by Klisor in D:\微服务大作业\borrow-service)
+2025-12-23 00:47:38 [restartedMain] DEBUG c.z.l.BorrowServiceApplication - Running with Spring Boot v3.1.5, Spring v6.0.13
+2025-12-23 00:47:38 [restartedMain] INFO  c.z.l.BorrowServiceApplication - The following 1 profile is active: "dev"
+2025-12-23 00:47:38 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-23 00:47:38 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-23 00:47:40 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-23 00:47:40 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 89 ms. Found 1 JPA repository interfaces.
+2025-12-23 00:47:40 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'borrowRecordRepository' and 'com.zjgsu.librarymanagement.repository.BorrowRecordRepository' mapperInterface. Bean already defined with the same name!
+2025-12-23 00:47:40 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.zjgsu.librarymanagement]' package. Please check your configuration.
+2025-12-23 00:47:40 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=b0865f46-69fa-39ba-82f9-003509eac832
+2025-12-23 00:47:42 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2025-12-23 00:47:42 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 00:47:42 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-12-23 00:47:42 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-12-23 00:47:42 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4158 ms
+2025-12-23 00:47:43 [restartedMain] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-12-23 00:47:44 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-23 00:47:44 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2025-12-23 00:47:44 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2025-12-23 00:47:45 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-23 00:47:45 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-23 00:47:45 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-23 00:47:46 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-23 00:47:46 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:47:46 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - JSqlParser is in classpath; If applicable, JSqlParser will be used
+2025-12-23 00:47:46 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-23 00:47:47 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-12-23 00:47:49 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-12-23 00:47:50 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/api'
+2025-12-23 00:47:50 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Started BorrowServiceApplication in 12.725 seconds (process running for 13.397)
+2025-12-23 00:47:55 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 00:47:55 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 00:47:55 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-12-23 00:47:56 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理借书请求 ===
+2025-12-23 00:47:56 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 请求数据: BorrowRequest(userId=1, bookId=2)
+2025-12-23 00:47:56 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 1. 调用用户服务 - URL: http://localhost:8083/api, userId: 1
+2025-12-23 00:47:56 [http-nio-8082-exec-2] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 00:47:56 [http-nio-8082-exec-2] ERROR c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息异常 - userId: 1, error: [401] during [GET] to [http://localhost:8083/api/users/1] [UserServiceClient#getUserById(Long)]: [{
+  "timestamp" : "2025-12-23 00:47:56",
+  "status" : 401,
+  "error" : "Unauthorized",
+  "message" : "缺少token",
+  "path" : "/api/users/1"
+}]
+2025-12-23 00:47:56 [http-nio-8082-exec-2] ERROR c.z.l.service.impl.BorrowServiceImpl - 借书业务异常: 用户不存在
+2025-12-23 00:47:56 [http-nio-8082-exec-2] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 用户不存在
+2025-12-23 00:47:56 [http-nio-8082-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 用户不存在]
+2025-12-23 00:48:14 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:48:14 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-12-23 00:48:14 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-12-23 00:49:27 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Starting BorrowServiceApplication using Java 17.0.16 with PID 5880 (D:\微服务大作业\borrow-service\target\classes started by Klisor in D:\微服务大作业\borrow-service)
+2025-12-23 00:49:27 [restartedMain] DEBUG c.z.l.BorrowServiceApplication - Running with Spring Boot v3.1.5, Spring v6.0.13
+2025-12-23 00:49:27 [restartedMain] INFO  c.z.l.BorrowServiceApplication - The following 1 profile is active: "dev"
+2025-12-23 00:49:27 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-23 00:49:27 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-23 00:49:29 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-23 00:49:29 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 84 ms. Found 1 JPA repository interfaces.
+2025-12-23 00:49:29 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'borrowRecordRepository' and 'com.zjgsu.librarymanagement.repository.BorrowRecordRepository' mapperInterface. Bean already defined with the same name!
+2025-12-23 00:49:29 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.zjgsu.librarymanagement]' package. Please check your configuration.
+2025-12-23 00:49:29 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=b0865f46-69fa-39ba-82f9-003509eac832
+2025-12-23 00:49:31 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2025-12-23 00:49:31 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 00:49:31 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-12-23 00:49:31 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-12-23 00:49:31 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3943 ms
+2025-12-23 00:49:32 [restartedMain] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-12-23 00:49:33 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-23 00:49:33 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2025-12-23 00:49:33 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2025-12-23 00:49:33 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-23 00:49:33 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-23 00:49:33 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-23 00:49:34 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-23 00:49:34 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:49:35 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - JSqlParser is in classpath; If applicable, JSqlParser will be used
+2025-12-23 00:49:35 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-23 00:49:35 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-12-23 00:49:37 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-12-23 00:49:38 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/api'
+2025-12-23 00:49:38 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Started BorrowServiceApplication in 11.577 seconds (process running for 12.145)
+2025-12-23 00:49:46 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 00:49:46 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 00:49:46 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-12-23 00:49:46 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理借书请求 ===
+2025-12-23 00:49:46 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 请求数据: BorrowRequest(userId=1, bookId=2)
+2025-12-23 00:49:46 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 1. 调用用户服务 - URL: http://localhost:8083/api, userId: 1
+2025-12-23 00:49:46 [http-nio-8082-exec-1] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 00:49:47 [http-nio-8082-exec-1] ERROR c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息异常 - userId: 1, error: [401] during [GET] to [http://localhost:8083/api/users/1] [UserServiceClient#getUserById(Long)]: [{
+  "timestamp" : "2025-12-23 00:49:46",
+  "status" : 401,
+  "error" : "Unauthorized",
+  "message" : "缺少token",
+  "path" : "/api/users/1"
+}]
+2025-12-23 00:49:47 [http-nio-8082-exec-1] ERROR c.z.l.service.impl.BorrowServiceImpl - 借书业务异常: 用户不存在
+2025-12-23 00:49:47 [http-nio-8082-exec-1] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 用户不存在
+2025-12-23 00:49:47 [http-nio-8082-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 用户不存在]
+2025-12-23 00:50:47 [http-nio-8082-exec-3] INFO  c.z.l.service.impl.BorrowServiceImpl - 获取借阅记录 - userId: null, status: null
+2025-12-23 00:50:47 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0
+2025-12-23 00:50:47 [http-nio-8082-exec-3] INFO  c.z.l.service.impl.BorrowServiceImpl - 查询到记录数: 0
+2025-12-23 00:51:50 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:51:50 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-12-23 00:51:50 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-12-23 00:51:54 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Starting BorrowServiceApplication using Java 17.0.16 with PID 14328 (D:\微服务大作业\borrow-service\target\classes started by Klisor in D:\微服务大作业\borrow-service)
+2025-12-23 00:51:54 [restartedMain] DEBUG c.z.l.BorrowServiceApplication - Running with Spring Boot v3.1.5, Spring v6.0.13
+2025-12-23 00:51:54 [restartedMain] INFO  c.z.l.BorrowServiceApplication - The following 1 profile is active: "dev"
+2025-12-23 00:51:54 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-23 00:51:54 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-23 00:51:56 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-23 00:51:56 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 74 ms. Found 1 JPA repository interfaces.
+2025-12-23 00:51:56 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'borrowRecordRepository' and 'com.zjgsu.librarymanagement.repository.BorrowRecordRepository' mapperInterface. Bean already defined with the same name!
+2025-12-23 00:51:56 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.zjgsu.librarymanagement]' package. Please check your configuration.
+2025-12-23 00:51:57 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=b0865f46-69fa-39ba-82f9-003509eac832
+2025-12-23 00:51:58 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2025-12-23 00:51:58 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 00:51:58 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-12-23 00:51:58 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-12-23 00:51:58 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3720 ms
+2025-12-23 00:51:59 [restartedMain] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-12-23 00:52:00 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-23 00:52:00 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2025-12-23 00:52:00 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2025-12-23 00:52:01 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-23 00:52:01 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-23 00:52:01 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-23 00:52:02 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-23 00:52:02 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:52:02 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - JSqlParser is in classpath; If applicable, JSqlParser will be used
+2025-12-23 00:52:02 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-23 00:52:03 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-12-23 00:52:05 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-12-23 00:52:05 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/api'
+2025-12-23 00:52:06 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Started BorrowServiceApplication in 12.253 seconds (process running for 13.005)
+2025-12-23 00:52:11 [http-nio-8082-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 00:52:11 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 00:52:11 [http-nio-8082-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-23 00:52:11 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理借书请求 ===
+2025-12-23 00:52:11 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 请求数据: BorrowRequest(userId=1, bookId=2)
+2025-12-23 00:52:11 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 1. 调用用户服务 - URL: http://localhost:8083/api, userId: 1
+2025-12-23 00:52:11 [http-nio-8082-exec-1] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 00:52:11 [http-nio-8082-exec-1] ERROR c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息异常 - userId: 1, error: [401] during [GET] to [http://localhost:8083/api/users/1] [UserServiceClient#getUserById(Long)]: [{
+  "timestamp" : "2025-12-23 00:52:11",
+  "status" : 401,
+  "error" : "Unauthorized",
+  "message" : "缺少token",
+  "path" : "/api/users/1"
+}]
+2025-12-23 00:52:11 [http-nio-8082-exec-1] ERROR c.z.l.service.impl.BorrowServiceImpl - 借书业务异常: 用户不存在
+2025-12-23 00:52:11 [http-nio-8082-exec-1] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 用户不存在
+2025-12-23 00:52:11 [http-nio-8082-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 用户不存在]
+2025-12-23 00:56:03 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:56:03 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2025-12-23 00:56:03 [SpringApplicationShutdownHook] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2025-12-23 00:56:15 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Starting BorrowServiceApplication using Java 17.0.16 with PID 13388 (D:\微服务大作业\borrow-service\target\classes started by Klisor in D:\微服务大作业\borrow-service)
+2025-12-23 00:56:15 [restartedMain] DEBUG c.z.l.BorrowServiceApplication - Running with Spring Boot v3.1.5, Spring v6.0.13
+2025-12-23 00:56:15 [restartedMain] INFO  c.z.l.BorrowServiceApplication - The following 1 profile is active: "dev"
+2025-12-23 00:56:15 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-23 00:56:15 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-23 00:56:17 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-23 00:56:17 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 63 ms. Found 1 JPA repository interfaces.
+2025-12-23 00:56:17 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'borrowRecordRepository' and 'com.zjgsu.librarymanagement.repository.BorrowRecordRepository' mapperInterface. Bean already defined with the same name!
+2025-12-23 00:56:17 [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.zjgsu.librarymanagement]' package. Please check your configuration.
+2025-12-23 00:56:17 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=b0865f46-69fa-39ba-82f9-003509eac832
+2025-12-23 00:56:19 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2025-12-23 00:56:19 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 00:56:19 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-12-23 00:56:19 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-12-23 00:56:19 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3334 ms
+2025-12-23 00:56:20 [restartedMain] INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2025-12-23 00:56:20 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-23 00:56:20 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2025-12-23 00:56:20 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2025-12-23 00:56:21 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-23 00:56:21 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-23 00:56:21 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-23 00:56:22 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-23 00:56:22 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-23 00:56:22 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - JSqlParser is in classpath; If applicable, JSqlParser will be used
+2025-12-23 00:56:22 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-23 00:56:23 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-12-23 00:56:25 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-12-23 00:56:25 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/api'
+2025-12-23 00:56:25 [restartedMain] INFO  c.z.l.BorrowServiceApplication - Started BorrowServiceApplication in 10.848 seconds (process running for 11.344)
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理借书请求 ===
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 请求数据: BorrowRequest(userId=1, bookId=2)
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 1. 调用用户服务 - URL: http://localhost:8083/api, userId: 1
+2025-12-23 00:56:31 [http-nio-8082-exec-2] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /users/1
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户信息详情: id=1, username=admin, maxBorrowCount=10, borrowedCount=0
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 2. 检查用户借阅资格
+2025-12-23 00:56:31 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        count(b1_0.id) 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.user_id=?
+2025-12-23 00:56:31 [http-nio-8082-exec-2] DEBUG c.z.l.service.impl.BorrowServiceImpl - 用户 admin 借阅资格检查: currentBorrowed=0, maxBorrowCount=10
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 3. 调用图书服务 - URL: http://localhost:8081/api, bookId: 2
+2025-12-23 00:56:31 [http-nio-8082-exec-2] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取图书信息 - bookId: 2
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /books/2
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 图书信息详情: id=2, title=白鲸, availableCopies=2, totalCopies=4
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 4. 检查图书库存
+2025-12-23 00:56:31 [http-nio-8082-exec-2] DEBUG c.z.l.service.impl.BorrowServiceImpl - 图书 白鲸 可用性检查: availableCopies=2, available=true
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 5. 检查用户是否已借阅该图书
+2025-12-23 00:56:31 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.user_id=? 
+        and b1_0.book_id=? 
+        and b1_0.status=?
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 6. 创建借阅记录
+2025-12-23 00:56:31 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        borrow_records
+        (book_id,deleted,due_date,max_renew_count,renewed_count,return_date,status,user_id) 
+    values
+        (?,?,?,?,?,?,?,?)
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 创建借阅记录成功 - recordId: 13
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 7. 调用用户服务更新用户借阅数量
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: PUT, URL: /users/1/borrow-count
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 00:56:31 [http-nio-8082-exec-2] ERROR c.z.l.service.impl.BorrowServiceImpl - 更新用户借阅数量失败: [404] during [PUT] to [http://localhost:8083/api/users/1/borrow-count] [UserServiceClient#updateUserBorrowCount(Long,Map)]: [{
+  "timestamp" : "2025-12-23 00:56:31",
+  "status" : 404,
+  "error" : "Not Found",
+  "message" : "No message available",
+  "path" : "/api/users/1/borrow-count"
+}]
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 8. 调用图书服务减少可用副本数
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: PUT, URL: /books/2/copies
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 00:56:31 [http-nio-8082-exec-2] ERROR c.z.l.service.impl.BorrowServiceImpl - 更新图书副本数失败: [404] during [PUT] to [http://localhost:8081/api/books/2/copies] [BookServiceClient#updateBookCopies(Long,Map)]: [{
+  "timestamp" : "2025-12-23 00:56:31",
+  "status" : 404,
+  "error" : "Not Found",
+  "message" : "No message available",
+  "path" : "/api/books/2/copies"
+}]
+2025-12-23 00:56:31 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 借书成功 - 用户: admin, 图书: 白鲸
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理还书请求 ===
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.service.impl.BorrowServiceImpl - recordId: 13
+2025-12-23 00:59:50 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.id=?
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.service.impl.BorrowServiceImpl - 还书信息 - userId: 1, bookId: 2
+2025-12-23 00:59:50 [http-nio-8082-exec-5] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /users/1
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 00:59:50 [http-nio-8082-exec-5] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取图书信息 - bookId: 2
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /books/2
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: PUT, URL: /users/1/borrow-count
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 00:59:50 [http-nio-8082-exec-5] ERROR c.z.l.service.impl.BorrowServiceImpl - 还书时更新用户借阅数量失败: [404] during [PUT] to [http://localhost:8083/api/users/1/borrow-count] [UserServiceClient#updateUserBorrowCount(Long,Map)]: [{
+  "timestamp" : "2025-12-23 00:59:50",
+  "status" : 404,
+  "error" : "Not Found",
+  "message" : "No message available",
+  "path" : "/api/users/1/borrow-count"
+}]
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: PUT, URL: /books/2/copies
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 00:59:50 [http-nio-8082-exec-5] ERROR c.z.l.service.impl.BorrowServiceImpl - 还书时更新图书副本数失败: [404] during [PUT] to [http://localhost:8081/api/books/2/copies] [BookServiceClient#updateBookCopies(Long,Map)]: [{
+  "timestamp" : "2025-12-23 00:59:50",
+  "status" : 404,
+  "error" : "Not Found",
+  "message" : "No message available",
+  "path" : "/api/books/2/copies"
+}]
+2025-12-23 00:59:50 [http-nio-8082-exec-5] INFO  c.z.l.service.impl.BorrowServiceImpl - 还书成功 - recordId: 13
+2025-12-23 00:59:50 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    update
+        borrow_records 
+    set
+        book_id=?,
+        borrow_date=?,
+        deleted=?,
+        due_date=?,
+        max_renew_count=?,
+        renewed_count=?,
+        return_date=?,
+        status=?,
+        updated_at=?,
+        user_id=? 
+    where
+        id=?
+2025-12-23 01:00:03 [http-nio-8082-exec-7] INFO  c.z.l.service.impl.BorrowServiceImpl - 获取借阅记录 - userId: null, status: null
+2025-12-23 01:00:03 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0
+2025-12-23 01:00:03 [http-nio-8082-exec-7] INFO  c.z.l.service.impl.BorrowServiceImpl - 查询到记录数: 1
+2025-12-23 01:00:03 [http-nio-8082-exec-7] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 01:00:03 [http-nio-8082-exec-7] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /users/1
+2025-12-23 01:00:03 [http-nio-8082-exec-7] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:00:03 [http-nio-8082-exec-7] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:00:03 [http-nio-8082-exec-7] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取图书信息 - bookId: 2
+2025-12-23 01:00:03 [http-nio-8082-exec-7] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /books/2
+2025-12-23 01:00:03 [http-nio-8082-exec-7] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:00:03 [http-nio-8082-exec-7] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:01:01 [http-nio-8082-exec-8] INFO  c.z.l.service.impl.BorrowServiceImpl - 获取借阅记录 - userId: null, status: null
+2025-12-23 01:01:01 [http-nio-8082-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0
+2025-12-23 01:01:01 [http-nio-8082-exec-8] INFO  c.z.l.service.impl.BorrowServiceImpl - 查询到记录数: 1
+2025-12-23 01:01:01 [http-nio-8082-exec-8] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 01:01:01 [http-nio-8082-exec-8] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /users/1
+2025-12-23 01:01:01 [http-nio-8082-exec-8] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:01:01 [http-nio-8082-exec-8] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:01:01 [http-nio-8082-exec-8] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取图书信息 - bookId: 2
+2025-12-23 01:01:01 [http-nio-8082-exec-8] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /books/2
+2025-12-23 01:01:01 [http-nio-8082-exec-8] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:01:01 [http-nio-8082-exec-8] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:01:06 [http-nio-8082-exec-9] INFO  c.z.l.service.impl.BorrowServiceImpl - 获取逾期记录
+2025-12-23 01:01:06 [http-nio-8082-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.status='BORROWED' 
+        and b1_0.due_date<current_timestamp(6)
+2025-12-23 01:01:06 [http-nio-8082-exec-9] INFO  c.z.l.service.impl.BorrowServiceImpl - 逾期记录数: 0
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理借书请求 ===
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 请求数据: BorrowRequest(userId=1, bookId=1)
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 1. 调用用户服务 - URL: http://localhost:8083/api, userId: 1
+2025-12-23 01:01:15 [http-nio-8082-exec-10] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /users/1
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 用户信息详情: id=1, username=admin, maxBorrowCount=10, borrowedCount=0
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 2. 检查用户借阅资格
+2025-12-23 01:01:15 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        count(b1_0.id) 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.user_id=?
+2025-12-23 01:01:15 [http-nio-8082-exec-10] DEBUG c.z.l.service.impl.BorrowServiceImpl - 用户 admin 借阅资格检查: currentBorrowed=1, maxBorrowCount=10
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 3. 调用图书服务 - URL: http://localhost:8081/api, bookId: 1
+2025-12-23 01:01:15 [http-nio-8082-exec-10] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取图书信息 - bookId: 1
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /books/1
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 图书信息详情: id=1, title=罪与罚, availableCopies=3, totalCopies=5
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 4. 检查图书库存
+2025-12-23 01:01:15 [http-nio-8082-exec-10] DEBUG c.z.l.service.impl.BorrowServiceImpl - 图书 罪与罚 可用性检查: availableCopies=3, available=true
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 5. 检查用户是否已借阅该图书
+2025-12-23 01:01:15 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.user_id=? 
+        and b1_0.book_id=? 
+        and b1_0.status=?
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 6. 创建借阅记录
+2025-12-23 01:01:15 [http-nio-8082-exec-10] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        borrow_records
+        (book_id,deleted,due_date,max_renew_count,renewed_count,return_date,status,user_id) 
+    values
+        (?,?,?,?,?,?,?,?)
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 创建借阅记录成功 - recordId: 14
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 7. 调用用户服务更新用户借阅数量
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: PUT, URL: /users/1/borrow-count
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:01:15 [http-nio-8082-exec-10] ERROR c.z.l.service.impl.BorrowServiceImpl - 更新用户借阅数量失败: [404] during [PUT] to [http://localhost:8083/api/users/1/borrow-count] [UserServiceClient#updateUserBorrowCount(Long,Map)]: [{
+  "timestamp" : "2025-12-23 01:01:15",
+  "status" : 404,
+  "error" : "Not Found",
+  "message" : "No message available",
+  "path" : "/api/users/1/borrow-count"
+}]
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 8. 调用图书服务减少可用副本数
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: PUT, URL: /books/1/copies
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:01:15 [http-nio-8082-exec-10] ERROR c.z.l.service.impl.BorrowServiceImpl - 更新图书副本数失败: [404] during [PUT] to [http://localhost:8081/api/books/1/copies] [BookServiceClient#updateBookCopies(Long,Map)]: [{
+  "timestamp" : "2025-12-23 01:01:15",
+  "status" : 404,
+  "error" : "Not Found",
+  "message" : "No message available",
+  "path" : "/api/books/1/copies"
+}]
+2025-12-23 01:01:15 [http-nio-8082-exec-10] INFO  c.z.l.service.impl.BorrowServiceImpl - 借书成功 - 用户: admin, 图书: 罪与罚
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 获取借阅记录 - userId: null, status: null
+2025-12-23 01:01:18 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.service.impl.BorrowServiceImpl - 查询到记录数: 2
+2025-12-23 01:01:18 [http-nio-8082-exec-1] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /users/1
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:01:18 [http-nio-8082-exec-1] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取图书信息 - bookId: 2
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /books/2
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:01:18 [http-nio-8082-exec-1] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取用户信息 - userId: 1
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /users/1
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:01:18 [http-nio-8082-exec-1] DEBUG c.z.l.service.impl.BorrowServiceImpl - 安全获取图书信息 - bookId: 1
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - Feign请求拦截器执行 - 方法: GET, URL: /books/1
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - 配置的serviceToken: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y
+2025-12-23 01:01:18 [http-nio-8082-exec-1] INFO  c.z.l.config.FeignConfig - 已添加Authorization头: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLC...
+2025-12-23 01:01:29 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 获取借阅统计
+2025-12-23 01:01:29 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        count(b1_0.id) 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.user_id is null
+2025-12-23 01:01:29 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.status='BORROWED' 
+        and b1_0.due_date<current_timestamp(6)
+2025-12-23 01:01:29 [http-nio-8082-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        count(b1_0.id) 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.borrow_date>=?
+2025-12-23 01:01:29 [http-nio-8082-exec-2] INFO  c.z.l.service.impl.BorrowServiceImpl - 统计结果 - 当前借阅: 0, 逾期: 0, 今日借阅: 2
+2025-12-23 01:01:48 [http-nio-8082-exec-3] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理续借请求 ===
+2025-12-23 01:01:48 [http-nio-8082-exec-3] INFO  c.z.l.service.impl.BorrowServiceImpl - userId: 6, recordId: 14
+2025-12-23 01:01:48 [http-nio-8082-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.id=?
+2025-12-23 01:01:48 [http-nio-8082-exec-3] ERROR c.z.l.service.impl.BorrowServiceImpl - 续借业务异常: 无权操作此借阅记录
+2025-12-23 01:01:48 [http-nio-8082-exec-3] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 无权操作此借阅记录
+2025-12-23 01:01:48 [http-nio-8082-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 无权操作此借阅记录]
+2025-12-23 01:03:30 [http-nio-8082-exec-5] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理续借请求 ===
+2025-12-23 01:03:30 [http-nio-8082-exec-5] INFO  c.z.l.service.impl.BorrowServiceImpl - userId: 6, recordId: 14
+2025-12-23 01:03:30 [http-nio-8082-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.id=?
+2025-12-23 01:03:30 [http-nio-8082-exec-5] ERROR c.z.l.service.impl.BorrowServiceImpl - 续借业务异常: 无权操作此借阅记录
+2025-12-23 01:03:30 [http-nio-8082-exec-5] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 无权操作此借阅记录
+2025-12-23 01:03:30 [http-nio-8082-exec-5] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 无权操作此借阅记录]
+2025-12-23 01:04:24 [http-nio-8082-exec-7] INFO  c.z.l.service.impl.BorrowServiceImpl - === 开始处理续借请求 ===
+2025-12-23 01:04:24 [http-nio-8082-exec-7] INFO  c.z.l.service.impl.BorrowServiceImpl - userId: 6, recordId: 14
+2025-12-23 01:04:24 [http-nio-8082-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.book_id,
+        b1_0.borrow_date,
+        b1_0.created_at,
+        b1_0.deleted,
+        b1_0.due_date,
+        b1_0.max_renew_count,
+        b1_0.renewed_count,
+        b1_0.return_date,
+        b1_0.status,
+        b1_0.updated_at,
+        b1_0.user_id 
+    from
+        borrow_records b1_0 
+    where
+        b1_0.id=?
+2025-12-23 01:04:24 [http-nio-8082-exec-7] ERROR c.z.l.service.impl.BorrowServiceImpl - 续借业务异常: 无权操作此借阅记录
+2025-12-23 01:04:24 [http-nio-8082-exec-7] ERROR c.z.l.e.GlobalExceptionHandler - 业务异常: 无权操作此借阅记录
+2025-12-23 01:04:24 [http-nio-8082-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [com.zjgsu.librarymanagement.exception.BusinessException: 无权操作此借阅记录]

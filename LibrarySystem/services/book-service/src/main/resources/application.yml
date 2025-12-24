@@ -1,0 +1,134 @@
+spring:
+  application:
+    name: book-service  # 修改服务名称
+  profiles:
+    active: dev
+
+# 开发环境配置
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  security:
+    enabled: false
+  web:
+    cors:
+      allowed-origins: "http://localhost:3000,http://localhost:8080,http://localhost:8081,http://localhost:8082,http://localhost:8083,http://localhost:3306,http://localhost:3307,http://localhost:3308"
+      allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+      allowed-headers: "*"
+      allow-credentials: true
+      max-age: 3600
+
+  # 数据库配置 - 图书服务专用数据库
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/book_db?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+
+  # JPA配置
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+
+  # Jackson配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+      indent-output: true
+
+# MyBatis Plus配置（如果使用）
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# 应用配置
+app:
+  # JWT配置（如果图书服务需要独立认证）
+  jwt:
+    secret: library-management-secret-key-2024
+    expiration: 86400  # 24小时
+  # 服务间通信配置
+  service:
+    borrow:
+      url: http://localhost:8082/api  # 借阅服务地址
+    user:
+      url: http://localhost:8083/api   # 用户服务地址
+
+# 服务器配置
+server:
+  port: 8081  # 图书服务端口
+  servlet:
+    context-path: /api
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# 日志配置
+logging:
+  level:
+    com.zjgsu.librarymanagement: DEBUG
+    org.springframework: INFO
+    org.hibernate: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  file:
+    name: logs/book-service.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# 健康检查配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics"
+  endpoint:
+    health:
+      show-details: always
+
+
+# Feign 配置
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000  # 连接超时时间（毫秒）
+        readTimeout: 10000    # 读取超时时间（毫秒）
+        loggerLevel: basic    # 日志级别：basic, headers, full
+  httpclient:
+    enabled: true  # 使用 Apache HttpClient
+  okhttp:
+    enabled: false # 关闭 OkHttp（如果使用HttpClient）

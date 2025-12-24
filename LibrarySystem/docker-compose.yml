@@ -1,0 +1,147 @@
+networks:
+  library-network:
+    driver: bridge
+
+volumes:
+  mysql-user-data:
+  mysql-book-data:
+  mysql-borrow-data:
+  redis-data:
+
+services:
+  # ==================== 基础设施层 ====================
+
+
+  # 用户服务数据库
+  mysql-user:
+    image: mysql:8.0
+    container_name: mysql-user
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-123456}
+      MYSQL_DATABASE: user_db
+      MYSQL_USER: ${MYSQL_USER:-library_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-library123}
+      TZ: Asia/Shanghai
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-user-data:/var/lib/mysql
+    networks:
+      - library-network
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+08:00
+      - --max_connections=1000
+
+  # 图书服务数据库
+  mysql-book:
+    image: mysql:8.0
+    container_name: mysql-book
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-123456}
+      MYSQL_DATABASE: book_db
+      MYSQL_USER: ${MYSQL_USER:-library_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-library123}
+      TZ: Asia/Shanghai
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-book-data:/var/lib/mysql
+    networks:
+      - library-network
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+08:00
+      - --max_connections=1000
+
+  # 借阅服务数据库
+  mysql-borrow:
+    image: mysql:8.0
+    container_name: mysql-borrow
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-123456}
+      MYSQL_DATABASE: borrow_db
+      MYSQL_USER: ${MYSQL_USER:-library_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-library123}
+      TZ: Asia/Shanghai
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql-borrow-data:/var/lib/mysql
+    networks:
+      - library-network
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+08:00
+      - --max_connections=1000
+
+  # ==================== 业务服务层 ====================
+
+  # 用户服务
+  user-service:
+    build:
+      context: ./services/user-service
+      dockerfile: Dockerfile
+    image: library-user-service:latest
+    container_name: user-service
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - TZ=Asia/Shanghai
+      - SERVER_SERVLET_CONTEXT_PATH=/api
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mysql-user
+    networks:
+      - library-network
+
+  # 图书服务
+  book-service:
+    build:
+      context: ./services/book-service
+      dockerfile: Dockerfile
+    image: library-book-service:latest
+    container_name: book-service
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - TZ=Asia/Shanghai
+      - SERVER_SERVLET_CONTEXT_PATH=/api
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql-book
+    networks:
+      - library-network
+
+  # 借阅服务
+  borrow-service:
+    build:
+      context: ./services/borrow-service
+      dockerfile: Dockerfile
+    image: library-borrow-service:latest
+    container_name: borrow-service
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - TZ=Asia/Shanghai
+      # 直接从 .env 引用
+      - APP_JWT_SECRET=${JWT_SECRET}
+      - APP_JWT_SERVICE_TOKEN=${JWT_SERVICE_TOKEN}
+      - APP_SERVICE_USER_URL=${APP_SERVICE_USER_URL}
+      - APP_SERVICE_BOOK_URL=${APP_SERVICE_BOOK_URL}
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysql-borrow
+      - user-service
+      - book-service
+    networks:
+      - library-network
