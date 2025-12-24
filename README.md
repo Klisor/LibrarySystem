@@ -1,4 +1,4 @@
-# 图书馆管理系统 - 微服务版本
+# 图书馆管理系统 
 
 ## 1. 项目简介
 
@@ -6,7 +6,7 @@
 图书馆管理系统微服务版本 (Library Management System - Microservices)
 
 ### 版本
-v1.0.0
+v1.1.0
 
 ### 项目描述
 本项目基于单机版图书馆管理系统进行微服务化改造，将原单体应用拆分为三个独立的微服务：用户服务、图书服务和借阅服务。每个服务拥有独立的数据库，服务间通过 RESTful API 进行通信。
@@ -15,6 +15,7 @@ v1.0.0
 - **用户服务 (User Service)**: 处理用户注册、登录、信息管理等功能
 - **图书服务 (Book Service)**: 处理图书的增删改查、库存管理等功能
 - **借阅服务 (Borrow Service)**: 处理图书借阅、归还、续借等业务流程，通过 Feign 客户端调用用户服务和图书服务
+- **Nacos 服务注册中心 (v1.1.0 新增)**: 提供服务注册与发现功能，实现服务间通过**服务名**进行调用
 
 ## 2. 架构图
 
@@ -30,22 +31,32 @@ v1.0.0
 │  (8083)   │ │  (8081)   │ │  (8082)   │
 └───────────┘ └───────────┘ └───────────┘
         ↓           ↓           ↓
+┌─────────────────────────────────────────┐
+│          Nacos 服务注册中心 (新增)       │
+│               (8848端口)                 │
+└─────────────────────────────────────────┘
+        ↓           ↓           ↓
 ┌───────────┐ ┌───────────┐ ┌───────────┐
 │  用户数据库 │ │  图书数据库 │ │  借阅数据库 │
 │  (3307)   │ │  (3308)   │ │  (3309)   │
 └───────────┘ └───────────┘ └───────────┘
 ```
 
-**服务间调用关系：**
-- 借阅服务 → 用户服务：获取用户信息，更新用户借阅数量
-- 借阅服务 → 图书服务：获取图书信息，更新图书库存
+**服务间调用关系 (v1.1.0 更新)**：
+
+- 所有微服务启动时向 **Nacos** 注册。
+- 借阅服务 → **通过服务名 `user-service` 调用** → 用户服务：获取用户信息，更新用户借阅数量
+- 借阅服务 → **通过服务名 `book-service` 调用** → 图书服务：获取图书信息，更新图书库存
 
 ## 3. 技术栈
 
 ### 后端技术
+
 - **Spring Boot**: 3.1.5
 - **Java**: 17
+- **Spring Cloud Alibaba Nacos Discovery (新增)**: 服务注册与发现
 - **Spring Cloud OpenFeign**: 服务间通信
+- **Spring Cloud LoadBalancer (新增)**: 客户端负载均衡
 - **Spring Data JPA**: 数据持久化
 - **MySQL**: 8.0
 - **Docker & Docker Compose**: 容器化部署
@@ -86,7 +97,7 @@ cp .env.example .env
 
 ### 5.3 使用 Docker Compose 部署
 ```bash
-# 构建并启动所有服务
+# 构建并启动所有服务(包括新增的 Nacos)
 docker-compose up -d --build
 
 # 查看服务状态
@@ -102,14 +113,16 @@ docker-compose down
 docker-compose down -v
 ```
 
-### 5.4 访问服务
+### 5.4 访问服务 (v1.1.0 更新)
+
 服务启动后，可以通过以下地址访问：
 
-| 服务     | 访问地址                  | 说明            |
-| -------- | ------------------------- | --------------- |
-| 用户服务 | http://localhost:8083/api | 用户管理相关API |
-| 图书服务 | http://localhost:8081/api | 图书管理相关API |
-| 借阅服务 | http://localhost:8082/api | 借阅管理相关API |
+| 服务             | 访问地址                    | 说明                                        |
+| :--------------- | :-------------------------- | :------------------------------------------ |
+| **Nacos 控制台** | http://localhost:8848/nacos | 服务注册与发现管理 (账号/密码: nacos/nacos) |
+| 用户服务         | http://localhost:8083/api   | 用户管理相关API                             |
+| 图书服务         | http://localhost:8081/api   | 图书管理相关API                             |
+| 借阅服务         | http://localhost:8082/api   | 借阅管理相关API                             |
 
 ### 5.5 健康检查
 ```bash
@@ -213,6 +226,17 @@ curl http://localhost:8082/api/actuator/health
 2. 优化 JVM 内存参数
 3. 使用 Alpine 基础镜像减少镜像大小
 
+### 问题 6：Nacos 镜像拉取失败（403 Forbidden 错误）
+
+**问题描述**：使用 `docker-compose up` 启动时，Nacos 容器因 `403 Forbidden` 错误而无法拉取镜像。
+
+**解决方案**：
+
+1.  此错误通常是由于 Docker 客户端配置的镜像加速器（如某些校园镜像源）权限问题导致。
+2.  **移除或替换镜像源**：将导致错误的镜像源（例如 `https://docker.nju.edu.cn`）从列表中移除或替换为可靠的镜像源（https://docker.m.daocloud.io）。
+3.  **重启Docker服务**：修改配置后，**必须完全重启 Docker Desktop 或 Docker 守护进程**。
+4.  **清理并重试**：执行 `docker-compose down --rmi all` 清理旧镜像，再重新启动。
+
 ## 8. 项目结构
 
 ```
@@ -238,3 +262,96 @@ library-management/
 ├── README.md                  # 项目说明文档
 ```
 
+---
+
+## 9. Nacos服务注册与发现配置 (v1.1.0 新增)
+
+从 v1.1.0 版本开始，系统引入了 **Nacos** 作为服务注册与发现中心，以实现微服务间更优雅的通信和服务治理。
+
+### 9.1 概述
+- **角色**：Nacos 作为服务注册中心，所有微服务（用户、图书、借阅）在启动时自动注册。
+- **调用方式**：服务间调用（如借阅服务调用用户服务）**通过服务名**（如 `user-service`）进行，无需再配置固定IP或主机名。
+- **架构提升**：为后续引入动态配置管理、服务熔断等功能奠定了基础。
+
+### 9.2 各服务配置步骤
+1.  **在 `pom.xml` 中添加依赖**（所有服务）：
+    ```xml
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+    </dependency>
+    ```
+
+2.  **在 `application.yml` 中添加Nacos配置**（所有服务）：
+    ```yaml
+    spring:
+      cloud:
+        nacos:
+          discovery:
+            server-addr: ${NACOS_SERVER_ADDR:nacos:8848}
+            namespace: ${NACOS_NAMESPACE:public}
+            group: DEFAULT_GROUP
+            ephemeral: true
+    ```
+
+3.  **在主启动类添加注解**（所有服务）：
+    ```java
+    @EnableDiscoveryClient
+    ```
+
+4.  **修改Feign客户端**（仅借阅服务）：将 `@FeignClient` 注解中的 `url` 属性改为通过 `name`（服务名）调用。
+    ```java
+    // 之前（基于URL）: @FeignClient(url = "${app.service.user.url}")
+    // 之后（基于服务名）:
+    @FeignClient(name = "user-service")
+    public interface UserServiceClient { ... }
+    ```
+
+### 9.3 Docker Compose 配置
+在 `docker-compose.yml` 中新增 `nacos` 服务，并为所有业务服务添加对应的环境变量和依赖。
+
+**新增Nacos服务定义**：
+```yaml
+services:
+  nacos:
+    image: nacos/nacos-server:v2.4.0
+    container_name: nacos
+    restart: always
+    environment:
+      - MODE=standalone
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
+    volumes:
+      - nacos-data:/home/nacos/data
+      - nacos-logs:/home/nacos/logs
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8848/nacos/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+```
+
+**为业务服务添加环境变量**（以 `user-service` 为例）：
+```yaml
+user-service:
+  environment:
+    - NACOS_SERVER_ADDR=nacos:8848
+    # ... 其他环境变量
+  depends_on:
+    - nacos
+    - mysql-user
+```
+
+### 9.4 验证配置
+1.  **启动所有服务**：`docker-compose up -d --build`
+2.  **访问Nacos控制台**：`http://localhost:8848/nacos` (默认账号/密码: `nacos`/`nacos`)
+3.  **检查服务列表**：在Nacos控制台的 **“服务管理 -> 服务列表”** 中，应能看到 `user-service`、`book-service`、`borrow-service` 均已注册。
+4.  **测试服务调用**：通过借阅接口发起一个借书请求，验证其能否通过服务名成功调用用户服务和图书服务。

@@ -6,9 +6,9 @@ spring:
     name: borrow-service
 
   datasource:
-    url: jdbc:mysql://mysql-borrow:3306/borrow_db?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-    username: ${MYSQL_USER:library_user}
-    password: ${MYSQL_PASSWORD:library123}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 20
@@ -28,6 +28,15 @@ spring:
         jdbc:
           batch_size: 20
 
+  # Nacos 配置
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:nacos:8848} # 读取docker环境变量
+        namespace: ${NACOS_NAMESPACE:public}
+        group: DEFAULT_GROUP
+        ephemeral: true
+
 management:
   endpoints:
     web:
@@ -36,23 +45,35 @@ management:
   endpoint:
     health:
       show-details: always
+      probes:
+        enabled: true
 
 logging:
   level:
     root: INFO
     com.zjgsu.librarymanagement: DEBUG
+    com.alibaba.cloud.nacos: INFO
+    feign: DEBUG
   file:
     name: logs/borrow-service.log
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
+# Feign 配置
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+  httpclient:
+    enabled: true
+
+# 应用配置
 app:
-  service:
-    user:
-      url: ${APP_SERVICE_USER_URL:http://user-service:8083/api}
-    book:
-      url: ${APP_SERVICE_BOOK_URL:http://book-service:8081/api}
+  # 不再使用具体的URL，而是通过服务名调用
   borrow:
     default-days: 30
     renew-days: 15
