@@ -6,6 +6,7 @@ import com.zjgsu.librarymanagement.response.ApiResponse;
 import com.zjgsu.librarymanagement.service.BookService;
 import com.zjgsu.librarymanagement.util.JwtUtil;
 import com.zjgsu.librarymanagement.util.Tools;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 import java.util.Map;
@@ -28,15 +28,37 @@ public class BookController {
     private final JwtUtil jwtUtil;
     private final Tools tools;
 
-    // 改用字段注入
     @Value("${server.port}")
     private String serverPort;
 
-    @Value("${INSTANCE_ID:user-service}")
+    @Value("${INSTANCE_ID:book-service}")
     private String instanceId;
 
     /**
-     * 获取图书列表（前端分页）
+     * 网关验证方法
+     */
+    private boolean isFromGateway(HttpServletRequest request) {
+        String gatewayHeader = request.getHeader("X-Gateway-Request");
+        if ("true".equals(gatewayHeader)) {
+            return true;
+        }
+
+        String remoteAddr = request.getRemoteAddr();
+        if ("127.0.0.1".equals(remoteAddr) || "0:0:0:0:0:0:0:1".equals(remoteAddr) || "localhost".equals(remoteAddr)) {
+            return true;
+        }
+
+        String environment = System.getenv("SPRING_PROFILES_ACTIVE");
+        if ("dev".equals(environment) || "docker".equals(environment)) {
+            return true;
+        }
+
+        log.warn("非网关访问被拒绝，来源IP: {}", remoteAddr);
+        return false;
+    }
+
+    /**
+     * 获取图书列表（前端分页） - 公开接口，不需要网关验证
      */
     @GetMapping
     public ApiResponse<List<BookDTO>> getBooks(@Validated BookSearchRequest searchRequest) {
@@ -45,15 +67,19 @@ public class BookController {
     }
 
     /**
-     * 获取图书详情
+     * 获取图书详情 - 公开接口，不需要网关验证
      */
     @GetMapping("/{id}")
     public ApiResponse<BookDTO> getBook(@PathVariable Long id,
-                                        @RequestHeader("Authorization") String tk) {
+                                        @RequestHeader("Authorization") String tk,
+                                        HttpServletRequest request) {
 
-        // =============== 新增日志行 ===============
+        // 如果提供了Token，需要网关验证
+        if (tk != null && !tk.trim().isEmpty() && !isFromGateway(request)) {
+            return ApiResponse.error(403, "请通过网关访问");
+        }
+
         log.info("[负载均衡]-处理请求 [getBookById] - 图书ID: {} | 实例: {} | 端口: {}", id, instanceId, serverPort);
-        // =========================================
 
         BookDTO book = bookService.getBookById(id);
         return ApiResponse.success(book);
@@ -64,8 +90,14 @@ public class BookController {
      */
     @PostMapping
     public ApiResponse<BookDTO> addBook(@RequestHeader("Authorization") String tk,
-                                        @Valid @RequestBody BookDTO bookDTO
-                                        ) {
+                                        @Valid @RequestBody BookDTO bookDTO,
+                                        HttpServletRequest request) {
+
+        // 网关验证
+        if (!isFromGateway(request)) {
+            return ApiResponse.error(403, "请通过网关访问");
+        }
+
         if (!tools.isAdmin(tk)) return ApiResponse.error("无权限");
         BookDTO addedBook = bookService.addBook(bookDTO);
         return ApiResponse.success("图书添加成功", addedBook);
@@ -78,7 +110,14 @@ public class BookController {
     public ApiResponse<BookDTO> updateBook(
             @PathVariable Long id,
             @Validated @RequestBody BookDTO bookDTO,
-            @RequestHeader("Authorization") String tk) {
+            @RequestHeader("Authorization") String tk,
+            HttpServletRequest request) {
+
+        // 网关验证
+        if (!isFromGateway(request)) {
+            return ApiResponse.error(403, "请通过网关访问");
+        }
+
         if (!tools.isAdmin(tk)) return ApiResponse.error("无权限");
         BookDTO updatedBook = bookService.updateBook(id, bookDTO);
         return ApiResponse.success("更新成功", updatedBook);
@@ -89,41 +128,69 @@ public class BookController {
      */
     @DeleteMapping("/{id}")
     public ApiResponse<Void> deleteBook(@PathVariable Long id,
-                                        @RequestHeader("Authorization") String tk) {
+                                        @RequestHeader("Authorization") String tk,
+                                        HttpServletRequest request) {
+
+        // 网关验证
+        if (!isFromGateway(request)) {
+            return ApiResponse.error(403, "请通过网关访问");
+        }
+
         if (!tools.isAdmin(tk)) return ApiResponse.error("无权限");
         bookService.deleteBook(id);
         return ApiResponse.success("删除成功", null);
     }
 
     /**
-     * 快速搜索图书
+     * 快速搜索图书 - 公开接口
      */
     @GetMapping("/search")
     public ApiResponse<List<BookDTO>> quickSearch(
-            @RequestHeader("Authorization") String tk,
             @RequestParam String q,
-            @RequestParam(defaultValue = "title") String field) {
+            @RequestParam(defaultValue = "title") String field,
+            @RequestHeader(value = "Authorization", required = false) String tk,
+            HttpServletRequest request) {
+
+        // 如果提供了Token，需要网关验证
+        if (tk != null && !tk.trim().isEmpty() && !isFromGateway(request)) {
+            return ApiResponse.error(403, "请通过网关访问");
+        }
 
         List<BookDTO> books = bookService.quickSearch(q, field);
         return ApiResponse.success(books);
     }
 
     /**
-     * 获取所有图书分类
+     * 获取所有图书分类 - 公开接口
      */
     @GetMapping("/categories")
-    public ApiResponse<Map<Integer, String>> getCategories(@RequestHeader("Authorization") String tk) {
+    public ApiResponse<Map<Integer, String>> getCategories(
+            @RequestHeader(value = "Authorization", required = false) String tk,
+            HttpServletRequest request) {
+
+        // 如果提供了Token，需要网关验证
+        if (tk != null && !tk.trim().isEmpty() && !isFromGateway(request)) {
+            return ApiResponse.error(403, "请通过网关访问");
+        }
+
         Map<Integer, String> categories = bookService.getCategories();
         return ApiResponse.success(categories);
     }
 
-    // 新增端点：更新图书库存（供借阅服务内部调用）
+    /**
+     * 更新图书库存（供借阅服务内部调用）
+     */
     @PostMapping("/update-stock")
     public ResponseEntity<Void> updateBookStock(
             @RequestBody BookDTO bookDTO,
-            @RequestHeader("Authorization") String tk) {
+            @RequestHeader("Authorization") String tk,
+            HttpServletRequest request) {
 
-        // =============== 负载均衡日志 ===============
+        // 网关验证
+        if (!isFromGateway(request)) {
+            return ResponseEntity.status(403).build();
+        }
+
         log.info("[负载均衡]-处理请求 [updateBookStock] - 图书ID: {} | 实例: {} | 端口: {}",
                 bookDTO.getId(), instanceId, serverPort);
 
@@ -136,20 +203,5 @@ public class BookController {
             log.error("更新图书库存失败: {}", e.getMessage());
             return ResponseEntity.status(500).build();
         }
-    }
-
-    // 添加权限验证方法（根据您的实际情况调整）
-    private boolean isValidAdminToken(String token) {
-        // 方法1：直接使用您已有的tools
-        // return tools.isAdmin(token);
-
-        // 方法2：简化验证，只检查Token是否有效
-        if (token == null || !token.startsWith("Bearer ")) {
-            return false;
-        }
-
-        // 检查是否是特定的服务Token
-        String expectedToken = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y";
-        return expectedToken.equals(token);
     }
 }

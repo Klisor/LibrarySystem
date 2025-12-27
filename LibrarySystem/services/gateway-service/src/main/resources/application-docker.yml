@@ -1,0 +1,78 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: gateway-service
+
+  # 重要：明确禁用数据源自动配置
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:nacos:8848}
+        namespace: ${NACOS_NAMESPACE:public}
+        group: DEFAULT_GROUP
+
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+
+      routes:
+        # 用户服务路由
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**, /api/auth/**
+          filters:
+            - name: JwtAuthFilter
+            - StripPrefix=0
+
+        # 图书服务路由
+        - id: book-service
+          uri: lb://book-service
+          predicates:
+            - Path=/api/books/**
+          filters:
+            - name: JwtAuthFilter
+            - StripPrefix=0
+
+        # 借阅服务路由
+        - id: borrow-service
+          uri: lb://borrow-service
+          predicates:
+            - Path=/api/borrow/**
+          filters:
+            - name: JwtAuthFilter
+            - StripPrefix=0
+
+        # 健康检查路由
+        - id: health-checks
+          uri: lb://user-service
+          predicates:
+            - Path=/actuator/health
+          filters:
+            - StripPrefix=0
+
+
+
+# JWT配置
+app:
+  jwt:
+    secret: ${JWT_SECRET:library-management-secret-key-2024}
+    expiration: 86400
+
+logging:
+  level:
+    com.zjgsu.librarymanagement: INFO
+    org.springframework.cloud.gateway: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - [%thread] %-5level %logger{36} - %msg%n"

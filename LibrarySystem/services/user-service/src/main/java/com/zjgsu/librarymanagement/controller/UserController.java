@@ -8,6 +8,7 @@ import com.zjgsu.librarymanagement.response.ApiResponse;
 import com.zjgsu.librarymanagement.service.UserService;
 import com.zjgsu.librarymanagement.util.JwtUtil;
 import com.zjgsu.librarymanagement.util.Tools;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 import java.util.Map;
@@ -31,18 +31,48 @@ public class UserController {
     private final JwtUtil jwtUtil;
     private final Tools tools;
 
-    // 改用字段注入
     @Value("${server.port}")
     private String serverPort;
 
     @Value("${INSTANCE_ID:user-service}")
     private String instanceId;
+
     /**
-     * 用户注册
+     * 网关验证方法
+     */
+    private boolean isFromGateway(HttpServletRequest request) {
+        // 方法1：检查特定头部（网关可以设置）
+        String gatewayHeader = request.getHeader("X-Gateway-Request");
+        if ("true".equals(gatewayHeader)) {
+            return true;
+        }
+
+        // 方法2：检查来源IP（如果是本地开发环境，可以放宽）
+        String remoteAddr = request.getRemoteAddr();
+        log.debug("请求来源IP: {}", remoteAddr);
+
+        // 本地开发环境允许直接访问
+        if ("127.0.0.1".equals(remoteAddr) || "0:0:0:0:0:0:0:1".equals(remoteAddr) || "localhost".equals(remoteAddr)) {
+            return true;
+        }
+
+        // 方法3：根据环境配置决定是否严格检查
+        String environment = System.getenv("SPRING_PROFILES_ACTIVE");
+        if ("dev".equals(environment) || "docker".equals(environment)) {
+            log.debug("开发环境，允许直接访问");
+            return true;
+        }
+
+        log.warn("非网关访问被拒绝，来源IP: {}", remoteAddr);
+        return false;
+    }
+
+    /**
+     * 用户注册 - 白名单，不需要网关验证
      */
     @PostMapping("/register")
-    public ApiResponse<UserDTO> register(@Valid @RequestBody RegisterRequest registerrequest) {
-        UserDTO registeredUser = userService.register(registerrequest);
+    public ApiResponse<UserDTO> register(@Valid @RequestBody RegisterRequest registerRequest) {
+        UserDTO registeredUser = userService.register(registerRequest);
         return ApiResponse.success("注册成功", registeredUser);
     }
 
@@ -51,7 +81,13 @@ public class UserController {
      */
     @PostMapping
     public ApiResponse<UserDTO> addUser(@Valid @RequestBody UserDTO userDTO,
-                                        @RequestHeader("Authorization") String tk) {
+                                        @RequestHeader("Authorization") String tk,
+                                        HttpServletRequest request) {
+        // 网关验证
+        if (!isFromGateway(request)) {
+            return ApiResponse.error(403, "请通过网关访问");
+        }
+
         if (!tools.isAdmin(tk)) return ApiResponse.error("无权限");
         UserDTO addedUser = userService.addUser(userDTO);
         return ApiResponse.success("用户添加成功", addedUser);
@@ -65,7 +101,14 @@ public class UserController {
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) User.UserRole role,
-            @RequestHeader("Authorization") String tk) {
+            @RequestHeader("Authorization") String tk,
+            HttpServletRequest request) {
+
+        // 网关验证
+        if (!isFromGateway(request)) {
+            return ApiResponse.error(403, "请通过网关访问");
+        }
+
         if (!tools.isAdmin(tk)) return ApiResponse.error("无权限");
         List<UserDTO> users = userService.searchUsers(username, email, role);
         return ApiResponse.success(users);
@@ -76,12 +119,17 @@ public class UserController {
      */
     @GetMapping("/{id}")
     public ApiResponse<UserDTO> getUser(@PathVariable Long id,
-                                        @RequestHeader("Authorization") String tk) {
-        // =============== 新增日志行 ===============
-        log.info("[负载均衡]-处理请求 [getUser] - 用户ID: {} | 实例: {} | 端口: {}", id, instanceId, serverPort);
-        // =========================================
+                                        @RequestHeader("Authorization") String tk,
+                                        HttpServletRequest request) {
 
-        if (!tools.isAdmin(tk)||tools.isSelf(id,tk)) return ApiResponse.error("无权限");
+        // 网关验证
+        if (!isFromGateway(request)) {
+            return ApiResponse.error(403, "请通过网关访问");
+        }
+
+        log.info("[负载均衡]-处理请求 [getUser] - 用户ID: {} | 实例: {} | 端口: {}", id, instanceId, serverPort);
+
+        if (!tools.isAdmin(tk) && !tools.isSelf(id, tk)) return ApiResponse.error("无权限");
         UserDTO user = userService.getUserById(id);
         return ApiResponse.success(user);
     }
@@ -93,8 +141,15 @@ public class UserController {
     public ApiResponse<UserDTO> updateUser(
             @PathVariable Long id,
             @Validated @RequestBody UserUpdateRequest updateRequest,
-            @RequestHeader("Authorization") String tk) {
-        if (!tools.isAdmin(tk)||tools.isSelf(id,tk)) return ApiResponse.error("无权限");
+            @RequestHeader("Authorization") String tk,
+            HttpServletRequest request) {
+
+        // 网关验证
+        if (!isFromGateway(request)) {
+            return ApiResponse.error(403, "请通过网关访问");
+        }
+
+        if (!tools.isAdmin(tk) && !tools.isSelf(id, tk)) return ApiResponse.error("无权限");
         UserDTO updatedUser = userService.updateUser(id, updateRequest);
         return ApiResponse.success("更新成功", updatedUser);
     }
@@ -104,7 +159,14 @@ public class UserController {
      */
     @DeleteMapping("/{id}")
     public ApiResponse<Void> deleteUser(@PathVariable Long id,
-                                        @RequestHeader("Authorization") String tk) {
+                                        @RequestHeader("Authorization") String tk,
+                                        HttpServletRequest request) {
+
+        // 网关验证
+        if (!isFromGateway(request)) {
+            return ApiResponse.error(403, "请通过网关访问");
+        }
+
         if (!tools.isAdmin(tk)) return ApiResponse.error("无权限");
         userService.deleteUser(id);
         return ApiResponse.success("删除成功", null);
@@ -116,15 +178,21 @@ public class UserController {
     @PutMapping("/{userId}/borrow-count")
     public ResponseEntity<Void> updateUserBorrowCount(
             @PathVariable Long userId,
-            @RequestBody Map<String, Integer> request,
-            @RequestHeader("Authorization") String tk) {
+            @RequestBody Map<String, Integer> requestBody,
+            @RequestHeader("Authorization") String tk,
+            HttpServletRequest request) {
 
-        // =============== 负载均衡日志 ===============
+        // 网关验证
+        if (!isFromGateway(request)) {
+            log.warn("非网关访问被拒绝，来源: {}", request.getRemoteAddr());
+            return ResponseEntity.status(403).build();
+        }
+
         log.info("[负载均衡]-处理请求 [updateUserBorrowCount] - 用户ID: {} | 变更: {} | 实例: {} | 端口: {}",
-                userId, request.get("change"), instanceId, serverPort);
+                userId, requestBody.get("change"), instanceId, serverPort);
 
         try {
-            Integer change = request.get("change");
+            Integer change = requestBody.get("change");
             if (change == null) {
                 return ResponseEntity.badRequest().build();
             }
@@ -136,64 +204,6 @@ public class UserController {
         } catch (Exception e) {
             log.error("更新用户借阅数量失败: {}", e.getMessage());
             return ResponseEntity.status(500).build();
-        }
-    }
-
-    /**
-     * 验证内部服务 Token - 改进版
-     */
-    private boolean isValidInternalToken(String token) {
-        try {
-            if (token == null || token.trim().isEmpty()) {
-                log.warn("Token为空");
-                return false;
-            }
-
-            // 去除可能的空白字符
-            token = token.trim();
-
-            // 检查是否以Bearer开头（兼容不同格式）
-            if (!token.startsWith("Bearer ")) {
-                // 尝试添加Bearer前缀
-                if (token.startsWith("eyJ")) { // 如果直接是JWT token
-                    token = "Bearer " + token;
-                } else {
-                    return false;
-                }
-            }
-
-            // 从配置中读取预期的Token
-            String expectedToken = System.getenv("APP_JWT_SERVICE_TOKEN");
-            if (expectedToken == null || expectedToken.trim().isEmpty()) {
-                log.warn("未配置APP_JWT_SERVICE_TOKEN环境变量");
-                // 如果未配置，则检查Token是否有效（解码验证）
-                return isValidJwtToken(token.replace("Bearer ", ""));
-            }
-
-            // 规范化expectedToken（确保有Bearer前缀）
-            if (!expectedToken.startsWith("Bearer ")) {
-                expectedToken = "Bearer " + expectedToken;
-            }
-
-            // 比较Token（可以宽松一些，比如只比较主体部分）
-            return token.equals(expectedToken);
-
-        } catch (Exception e) {
-            log.error("Token验证异常: {}", e.getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * 验证JWT Token是否有效
-     */
-    private boolean isValidJwtToken(String token) {
-        try {
-            // 使用JwtUtil验证Token
-            return jwtUtil.validateToken(token);
-        } catch (Exception e) {
-            log.warn("JWT Token验证失败: {}", e.getMessage());
-            return false;
         }
     }
 }

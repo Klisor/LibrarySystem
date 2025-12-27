@@ -244,3 +244,28 @@ services:
         condition: service_started
     networks:
       - library-network
+
+
+  # ==================== API网关 ====================
+  gateway-service:
+    build:
+      context: ./services/gateway-service
+      dockerfile: Dockerfile
+    container_name: gateway-service
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - NACOS_SERVER_ADDR=nacos:8848
+      - JWT_SECRET=library-management-secret-key-2024
+    ports:
+      - "8090:8090"
+    depends_on:
+      nacos:
+        condition: service_healthy
+    networks:
+      - library-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
