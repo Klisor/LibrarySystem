@@ -99,31 +99,27 @@ services:
       - library-network
     command: *mysql-command
 
-  # ==================== 业务服务层 ====================
-  # 配置原则：通过环境变量 NACOS_SERVER_ADDR 统一传递Nacos地址
+  # ==================== 业务服务层 (多实例) ====================
 
-  user-service:
+  # 用户服务 - 3个实例，使用不同端口
+  user-service-1: &user-service
     build:
       context: ./services/user-service
       dockerfile: Dockerfile
     image: library-user-service:latest
-    container_name: user-service
+    container_name: user-service-1
     restart: unless-stopped
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SERVER_PORT=8083
+      - SERVER_PORT=8083  # 实例1端口
       - SERVER_SERVLET_CONTEXT_PATH=/api
-      # 统一使用此变量告知服务Nacos地址
       - NACOS_SERVER_ADDR=nacos:8848
-      # 数据库连接信息
+      - INSTANCE_ID=user-1
       - DB_URL=jdbc:mysql://mysql-user:3306/user_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
       - DB_USERNAME=${MYSQL_USER:-library_user}
       - DB_PASSWORD=${MYSQL_PASSWORD:-library123}
-      # JWT配置
-      - JWT_SECRET=${JWT_SECRET}
-      - JWT_EXPIRATION=86400
     ports:
-      - "8083:8083"
+      - "8083:8083"  # 实例1暴露端口
     depends_on:
       nacos:
         condition: service_healthy
@@ -132,27 +128,55 @@ services:
     networks:
       - library-network
 
-  book-service:
+  user-service-2:
+    <<: *user-service
+    container_name: user-service-2
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8084  # 实例2端口（不同）
+      - SERVER_SERVLET_CONTEXT_PATH=/api
+      - NACOS_SERVER_ADDR=nacos:8848
+      - DB_URL=jdbc:mysql://mysql-user:3306/user_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
+      - DB_USERNAME=${MYSQL_USER:-library_user}
+      - DB_PASSWORD=${MYSQL_PASSWORD:-library123}
+      - INSTANCE_ID=user-2
+    ports:
+      - "8084:8084"  # 实例2暴露端口
+
+  user-service-3:
+    <<: *user-service
+    container_name: user-service-3
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8085  # 实例3端口（不同）
+      - SERVER_SERVLET_CONTEXT_PATH=/api
+      - NACOS_SERVER_ADDR=nacos:8848
+      - DB_URL=jdbc:mysql://mysql-user:3306/user_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
+      - DB_USERNAME=${MYSQL_USER:-library_user}
+      - DB_PASSWORD=${MYSQL_PASSWORD:-library123}
+      - INSTANCE_ID=user-3
+    ports:
+      - "8085:8085"  # 实例3暴露端口
+
+  # 图书服务 - 3个实例，使用不同端口
+  book-service-1: &book-service
     build:
       context: ./services/book-service
       dockerfile: Dockerfile
     image: library-book-service:latest
-    container_name: book-service
+    container_name: book-service-1
     restart: unless-stopped
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SERVER_PORT=8081
+      - SERVER_PORT=8091  # 实例1端口
       - SERVER_SERVLET_CONTEXT_PATH=/api
-      # Nacos地址
       - NACOS_SERVER_ADDR=nacos:8848
-      # 数据库连接信息
+      - INSTANCE_ID=book-1
       - DB_URL=jdbc:mysql://mysql-book:3306/book_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
       - DB_USERNAME=${MYSQL_USER:-library_user}
       - DB_PASSWORD=${MYSQL_PASSWORD:-library123}
-      # JWT配置
-      - JWT_SECRET=${JWT_SECRET}
     ports:
-      - "8081:8081"
+      - "8091:8091"  # 实例1暴露端口
     depends_on:
       nacos:
         condition: service_healthy
@@ -161,6 +185,37 @@ services:
     networks:
       - library-network
 
+  book-service-2:
+    <<: *book-service
+    container_name: book-service-2
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8092  # 实例2端口（不同）
+      - SERVER_SERVLET_CONTEXT_PATH=/api
+      - NACOS_SERVER_ADDR=nacos:8848
+      - DB_URL=jdbc:mysql://mysql-book:3306/book_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
+      - DB_USERNAME=${MYSQL_USER:-library_user}
+      - DB_PASSWORD=${MYSQL_PASSWORD:-library123}
+      - INSTANCE_ID=book-2
+    ports:
+      - "8092:8092"  # 实例2暴露端口
+
+  book-service-3:
+    <<: *book-service
+    container_name: book-service-3
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8093  # 实例3端口（不同）
+      - SERVER_SERVLET_CONTEXT_PATH=/api
+      - NACOS_SERVER_ADDR=nacos:8848
+      - DB_URL=jdbc:mysql://mysql-book:3306/book_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
+      - DB_USERNAME=${MYSQL_USER:-library_user}
+      - DB_PASSWORD=${MYSQL_PASSWORD:-library123}
+      - INSTANCE_ID=book-3
+    ports:
+      - "8093:8093"  # 实例3暴露端口
+
+  # 借阅服务 - 保持1个实例
   borrow-service:
     build:
       context: ./services/borrow-service
@@ -172,16 +227,12 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8082
       - SERVER_SERVLET_CONTEXT_PATH=/api
-      # Nacos地址
       - NACOS_SERVER_ADDR=nacos:8848
-      # 数据库连接信息
       - DB_URL=jdbc:mysql://mysql-borrow:3306/borrow_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
       - DB_USERNAME=${MYSQL_USER:-library_user}
       - DB_PASSWORD=${MYSQL_PASSWORD:-library123}
-      # 应用配置 (注意：服务间调用应改为服务名，而非具体URL)
       - APP_JWT_SECRET=${JWT_SECRET}
       - APP_JWT_SERVICE_TOKEN=${JWT_SERVICE_TOKEN}
-      # 借阅规则
       - APP_BORROW_DEFAULT_DAYS=30
       - APP_BORROW_MAX_COUNT=5
     ports:
@@ -190,10 +241,6 @@ services:
       nacos:
         condition: service_healthy
       mysql-borrow:
-        condition: service_started
-      user-service:
-        condition: service_started
-      book-service:
         condition: service_started
     networks:
       - library-network

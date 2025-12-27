@@ -20,7 +20,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -67,3 +67,4 @@ app:
     secret: ${JWT_SECRET:library-management-secret-key-2024}
     expiration: 86400
     service-token: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y"
+

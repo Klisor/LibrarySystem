@@ -38,6 +38,8 @@ public class JwtInterceptor implements HandlerInterceptor {
         request.setAttribute("username", claims.getSubject());
         request.setAttribute("role", claims.get("role", String.class));
 
+        System.out.println("拦截了 user-service 的请求");
+
         return true;   // 放行
     }
 }

@@ -66,18 +66,18 @@ public class BorrowServiceImpl implements BorrowService {
 
         try {
             // 1. 调用用户服务获取用户信息
-            log.info("1. 调用用户服务 - URL: {}, userId: {}",
-                    userServiceBaseUrl, userId);
+//            log.info("1. 调用用户服务 - URL: {}, userId: {}",
+//                    userServiceBaseUrl, userId);
             UserDTO user = safeGetUserById(userId);
             if (user == null) {
                 throw new BusinessException(404, "用户不存在");
             }
 
-            log.info("用户信息详情: id={}, username={}, maxBorrowCount={}, borrowedCount={}",
-                    user.getId(), user.getUsername(), user.getMaxBorrowCount(), user.getBorrowedCount());
-
-            // 2. 检查用户是否可以借书
-            log.info("2. 检查用户借阅资格");
+//            log.info("用户信息详情: id={}, username={}, maxBorrowCount={}, borrowedCount={}",
+//                    user.getId(), user.getUsername(), user.getMaxBorrowCount(), user.getBorrowedCount());
+//
+//            // 2. 检查用户是否可以借书
+//            log.info("2. 检查用户借阅资格");
             if (!safeCanUserBorrow(userId, user)) {
                 Long currentBorrowed = borrowRecordRepository.countBorrowingByUserId(userId);
                 if (currentBorrowed == null) currentBorrowed = 0L;
@@ -89,33 +89,33 @@ public class BorrowServiceImpl implements BorrowService {
                 ));
             }
 
-            // 3. 调用图书服务获取图书信息
-            log.info("3. 调用图书服务 - URL: {}, bookId: {}",
-                    bookServiceBaseUrl, bookId);
+//            // 3. 调用图书服务获取图书信息
+//            log.info("3. 调用图书服务 - URL: {}, bookId: {}",
+//                    bookServiceBaseUrl, bookId);
             BookDTO book = safeGetBookById(bookId);
             if (book == null) {
                 throw new BusinessException(404, "图书不存在");
             }
 
-            log.info("图书信息详情: id={}, title={}, availableCopies={}, totalCopies={}",
-                    book.getId(), book.getTitle(), book.getAvailableCopies(), book.getTotalCopies());
-
-            // 4. 检查图书是否有库存
-            log.info("4. 检查图书库存");
+//            log.info("图书信息详情: id={}, title={}, availableCopies={}, totalCopies={}",
+//                    book.getId(), book.getTitle(), book.getAvailableCopies(), book.getTotalCopies());
+//
+//            // 4. 检查图书是否有库存
+//            log.info("4. 检查图书库存");
             if (!safeIsBookAvailable(book)) {
                 throw new BusinessException("图书库存不足");
             }
 
-            // 5. 检查用户是否已借阅该图书
-            log.info("5. 检查用户是否已借阅该图书");
+//            // 5. 检查用户是否已借阅该图书
+//            log.info("5. 检查用户是否已借阅该图书");
             if (borrowRecordRepository.findByUserIdAndBookIdAndStatus(userId, bookId, BorrowRecord.BorrowStatus.BORROWED)
                     .isPresent()) {
-                log.warn("用户已借阅该图书: userId={}, bookId={}", userId, bookId);
+//                log.warn("用户已借阅该图书: userId={}, bookId={}", userId, bookId);
                 throw new BusinessException("用户已借阅该图书");
             }
 
-            // 6. 创建借阅记录
-            log.info("6. 创建借阅记录");
+//            // 6. 创建借阅记录
+//            log.info("6. 创建借阅记录");
             BorrowRecord borrowRecord = new BorrowRecord();
             borrowRecord.setUserId(userId);
             borrowRecord.setBookId(bookId);
@@ -126,30 +126,31 @@ public class BorrowServiceImpl implements BorrowService {
             borrowRecord.setMaxRenewCount(maxRenewCount);
 
             BorrowRecord savedRecord = borrowRecordRepository.save(borrowRecord);
-            log.info("创建借阅记录成功 - recordId: {}", savedRecord.getId());
+//            log.info("创建借阅记录成功 - recordId: {}", savedRecord.getId());
 
-            // 7. 调用用户服务更新用户借阅数量
-            log.info("7. 调用用户服务更新用户借阅数量");
+//            // 7. 调用用户服务更新用户借阅数量
+//            log.info("7. 调用用户服务更新用户借阅数量");
             try {
                 Map<String, Integer> userRequest = new HashMap<>();
                 userRequest.put("change", 1);
-                userServiceClient.updateUserBorrowCount(userId, userRequest);
-                log.info("更新用户借阅数量成功");
+                log.info("中文Map<String, Integer> userRequest"+userRequest);
+                userServiceClient.updateUserBorrowCount(userId, userRequest,inner_tk);
+//                log.info("更新用户借阅数量成功");
             } catch (Exception e) {
-                log.error("更新用户借阅数量失败: {}", e.getMessage());
+                log.error("更新用户借阅数量失败！: {}", e.getMessage());
                 // 记录日志但不影响主流程
             }
 
-            // 8. 调用图书服务减少可用副本数
-            log.info("8. 调用图书服务减少可用副本数");
+//            // 8. 调用图书服务减少可用副本数
+//            log.info("8. 调用图书服务减少可用副本数");
             try {
                 BookDTO bookDTO = new BookDTO();
                 bookDTO.setId(bookId);
                 bookDTO.setAvailableCopies(book.getAvailableCopies() - 1); // 需要先获取图书信息
-                bookServiceClient.updateBookStock(bookDTO);
-                log.info("更新图书副本数成功");
+                bookServiceClient.updateBookStock(bookDTO,inner_tk);
+//                log.info("更新图书副本数成功");
             } catch (Exception e) {
-                log.error("更新图书副本数失败: {}", e.getMessage());
+//                log.error("更新图书副本数失败: {}", e.getMessage());
                 // 记录日志但不影响主流程
             }
 
@@ -157,10 +158,10 @@ public class BorrowServiceImpl implements BorrowService {
 
             return createBorrowDTO(savedRecord, user, book);
         } catch (BusinessException e) {
-            log.error("借书业务异常: {}", e.getMessage());
+//            log.error("借书业务异常: {}", e.getMessage());
             throw e;
         } catch (Exception e) {
-            log.error("借书系统异常: {}", e.getMessage(), e);
+//            log.error("借书系统异常: {}", e.getMessage(), e);
             throw new BusinessException("借书失败: " + e.getMessage());
         }
     }
@@ -202,7 +203,7 @@ public class BorrowServiceImpl implements BorrowService {
             try {
                 Map<String, Integer> userRequest = new HashMap<>();
                 userRequest.put("change", -1);
-                userServiceClient.updateUserBorrowCount(userId, userRequest);
+                userServiceClient.updateUserBorrowCount(userId, userRequest,inner_tk);
                 log.info("更新用户借阅数量成功（还书）");
             } catch (Exception e) {
                 log.error("还书时更新用户借阅数量失败: {}", e.getMessage());
@@ -213,7 +214,7 @@ public class BorrowServiceImpl implements BorrowService {
                 BookDTO bookDTO = new BookDTO();
                 bookDTO.setId(bookId);
                 bookDTO.setAvailableCopies(book.getAvailableCopies() - 1); // 需要先获取图书信息
-                bookServiceClient.updateBookStock(bookDTO);
+                bookServiceClient.updateBookStock(bookDTO,inner_tk);
                 log.info("更新图书副本数成功（还书）");
             } catch (Exception e) {
                 log.error("还书时更新图书副本数失败: {}", e.getMessage());
@@ -493,10 +494,13 @@ public class BorrowServiceImpl implements BorrowService {
     /**
      * 安全地获取用户信息
      */
+    @Value("${app.jwt.service-token:}")
+    String inner_tk;
     private UserDTO safeGetUserById(Long userId) {
         try {
-            log.debug("安全获取用户信息 - userId: {}", userId);
-            ApiResponse<UserDTO> response = userServiceClient.getUserById(userId);
+//            log.debug("安全获取用户信息 - userId: {}", userId);
+            ApiResponse<UserDTO> response = userServiceClient.getUserById(userId, inner_tk);
+
             if (response != null && response.getCode() == 200 && response.getData() != null) {
                 return response.getData();
             } else {
@@ -504,26 +508,47 @@ public class BorrowServiceImpl implements BorrowService {
                 return null;
             }
         } catch (Exception e) {
+            // 特别处理503错误（服务不可用）
+            if (e.getMessage() != null && e.getMessage().contains("503") ||
+                    e.getMessage() != null && e.getMessage().contains("No servers available")) {
+                log.warn("用户服务不可用，触发降级逻辑 - userId: {}", userId);
+                // 返回模拟用户或抛出特定异常
+                return createFallbackUser(userId);
+            }
+
             log.error("安全获取用户信息异常 - userId: {}, error: {}", userId, e.getMessage());
             return null;
         }
     }
 
     /**
+     * 创建降级用户（当用户服务不可用时使用）
+     */
+    private UserDTO createFallbackUser(Long userId) {
+        UserDTO fallbackUser = new UserDTO();
+        fallbackUser.setId(userId);
+        fallbackUser.setUsername("用户_" + userId);
+        fallbackUser.setMaxBorrowCount(5); // 默认最大借阅数
+        fallbackUser.setBorrowedCount(0);
+        fallbackUser.setEmail("fallback@example.com");
+        fallbackUser.setRole(UserDTO.UserRole.USER); // 假设有UserRole枚举
+        return fallbackUser;
+    }
+    /**
      * 安全地获取图书信息
      */
     private BookDTO safeGetBookById(Long bookId) {
         try {
-            log.debug("安全获取图书信息 - bookId: {}", bookId);
-            ApiResponse<BookDTO> response = bookServiceClient.getBookById(bookId);
+//            log.debug("安全获取图书信息 - bookId: {}", bookId);
+            ApiResponse<BookDTO> response = bookServiceClient.getBookById(bookId,inner_tk);
             if (response != null && response.getCode() == 200 && response.getData() != null) {
                 return response.getData();
             } else {
-                log.warn("获取图书信息失败 - bookId: {}, response: {}", bookId, response);
+//                log.warn("获取图书信息失败 - bookId: {}, response: {}", bookId, response);
                 return null;
             }
         } catch (Exception e) {
-            log.error("安全获取图书信息异常 - bookId: {}, error: {}", bookId, e.getMessage());
+//            log.error("安全获取图书信息异常 - bookId: {}, error: {}", bookId, e.getMessage());
             return null;
         }
     }
@@ -533,15 +558,15 @@ public class BorrowServiceImpl implements BorrowService {
      */
     private boolean safeCanUserBorrow(Long userId, UserDTO user) {
         if (user == null) {
-            log.warn("用户为空，不能借书 - userId: {}", userId);
+//            log.warn("用户为空，不能借书 - userId: {}", userId);
             return false;
         }
 
         // 获取用户最大借阅数量（处理null值）
         Integer maxBorrowCount = user.getMaxBorrowCount();
         if (maxBorrowCount == null) {
-            log.warn("用户 {} 的 maxBorrowCount 为 null，使用默认值 {}",
-                    user.getUsername(), defaultMaxBorrowCount);
+//            log.warn("用户 {} 的 maxBorrowCount 为 null，使用默认值 {}",
+//                    user.getUsername(), defaultMaxBorrowCount);
             maxBorrowCount = defaultMaxBorrowCount;
         }
 
@@ -551,8 +576,8 @@ public class BorrowServiceImpl implements BorrowService {
             currentBorrowed = 0L;
         }
 
-        log.debug("用户 {} 借阅资格检查: currentBorrowed={}, maxBorrowCount={}",
-                user.getUsername(), currentBorrowed, maxBorrowCount);
+//        log.debug("用户 {} 借阅资格检查: currentBorrowed={}, maxBorrowCount={}",
+//                user.getUsername(), currentBorrowed, maxBorrowCount);
 
         return currentBorrowed < maxBorrowCount;
     }
@@ -574,8 +599,8 @@ public class BorrowServiceImpl implements BorrowService {
         }
 
         boolean available = availableCopies > 0;
-        log.debug("图书 {} 可用性检查: availableCopies={}, available={}",
-                book.getTitle(), availableCopies, available);
+//        log.debug("图书 {} 可用性检查: availableCopies={}, available={}",
+//                book.getTitle(), availableCopies, available);
 
         return available;
     }

@@ -9,8 +9,10 @@ import com.zjgsu.librarymanagement.service.UserService;
 import com.zjgsu.librarymanagement.util.JwtUtil;
 import com.zjgsu.librarymanagement.util.Tools;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,13 @@ public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
     private final Tools tools;
+
+    // 改用字段注入
+    @Value("${server.port}")
+    private String serverPort;
+
+    @Value("${INSTANCE_ID:user-service}")
+    private String instanceId;
     /**
      * 用户注册
      */
@@ -68,6 +77,10 @@ public class UserController {
     @GetMapping("/{id}")
     public ApiResponse<UserDTO> getUser(@PathVariable Long id,
                                         @RequestHeader("Authorization") String tk) {
+        // =============== 新增日志行 ===============
+        log.info("[负载均衡]-处理请求 [getUser] - 用户ID: {} | 实例: {} | 端口: {}", id, instanceId, serverPort);
+        // =========================================
+
         if (!tools.isAdmin(tk)||tools.isSelf(id,tk)) return ApiResponse.error("无权限");
         UserDTO user = userService.getUserById(id);
         return ApiResponse.success(user);
@@ -104,24 +117,19 @@ public class UserController {
     public ResponseEntity<Void> updateUserBorrowCount(
             @PathVariable Long userId,
             @RequestBody Map<String, Integer> request,
-            @RequestHeader("Authorization") String token) {
+            @RequestHeader("Authorization") String tk) {
 
-        // 验证 Token（确保是内部服务调用）
-        if (!isValidInternalToken(token)) {
-            log.warn("无效的内部调用Token: {}", token);
-            return ResponseEntity.status(401).build();
-        }
+        // =============== 负载均衡日志 ===============
+        log.info("[负载均衡]-处理请求 [updateUserBorrowCount] - 用户ID: {} | 变更: {} | 实例: {} | 端口: {}",
+                userId, request.get("change"), instanceId, serverPort);
 
         try {
-            // 解析参数
             Integer change = request.get("change");
             if (change == null) {
                 return ResponseEntity.badRequest().build();
             }
 
-            // 调用服务层
             userService.updateUserBorrowCount(userId, change);
-
             log.info("成功更新用户借阅数量 - userId: {}, change: {}", userId, change);
             return ResponseEntity.ok().build();
 
@@ -132,11 +140,60 @@ public class UserController {
     }
 
     /**
-     * 验证内部服务 Token
+     * 验证内部服务 Token - 改进版
      */
     private boolean isValidInternalToken(String token) {
-        // 从配置中读取预期的 Token（与借阅服务配置一致）
-        String expectedToken = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y";
-        return expectedToken.equals(token);
+        try {
+            if (token == null || token.trim().isEmpty()) {
+                log.warn("Token为空");
+                return false;
+            }
+
+            // 去除可能的空白字符
+            token = token.trim();
+
+            // 检查是否以Bearer开头（兼容不同格式）
+            if (!token.startsWith("Bearer ")) {
+                // 尝试添加Bearer前缀
+                if (token.startsWith("eyJ")) { // 如果直接是JWT token
+                    token = "Bearer " + token;
+                } else {
+                    return false;
+                }
+            }
+
+            // 从配置中读取预期的Token
+            String expectedToken = System.getenv("APP_JWT_SERVICE_TOKEN");
+            if (expectedToken == null || expectedToken.trim().isEmpty()) {
+                log.warn("未配置APP_JWT_SERVICE_TOKEN环境变量");
+                // 如果未配置，则检查Token是否有效（解码验证）
+                return isValidJwtToken(token.replace("Bearer ", ""));
+            }
+
+            // 规范化expectedToken（确保有Bearer前缀）
+            if (!expectedToken.startsWith("Bearer ")) {
+                expectedToken = "Bearer " + expectedToken;
+            }
+
+            // 比较Token（可以宽松一些，比如只比较主体部分）
+            return token.equals(expectedToken);
+
+        } catch (Exception e) {
+            log.error("Token验证异常: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 验证JWT Token是否有效
+     */
+    private boolean isValidJwtToken(String token) {
+        try {
+            // 使用JwtUtil验证Token
+            return jwtUtil.validateToken(token);
+        } catch (Exception e) {
+            log.warn("JWT Token验证失败: {}", e.getMessage());
+            return false;
+        }
     }
 }

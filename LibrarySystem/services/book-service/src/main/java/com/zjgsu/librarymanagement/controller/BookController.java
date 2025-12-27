@@ -9,6 +9,7 @@ import com.zjgsu.librarymanagement.util.Tools;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,14 @@ public class BookController {
     private final BookService bookService;
     private final JwtUtil jwtUtil;
     private final Tools tools;
+
+    // 改用字段注入
+    @Value("${server.port}")
+    private String serverPort;
+
+    @Value("${INSTANCE_ID:user-service}")
+    private String instanceId;
+
     /**
      * 获取图书列表（前端分页）
      */
@@ -41,6 +50,11 @@ public class BookController {
     @GetMapping("/{id}")
     public ApiResponse<BookDTO> getBook(@PathVariable Long id,
                                         @RequestHeader("Authorization") String tk) {
+
+        // =============== 新增日志行 ===============
+        log.info("[负载均衡]-处理请求 [getBookById] - 图书ID: {} | 实例: {} | 端口: {}", id, instanceId, serverPort);
+        // =========================================
+
         BookDTO book = bookService.getBookById(id);
         return ApiResponse.success(book);
     }
@@ -105,8 +119,37 @@ public class BookController {
 
     // 新增端点：更新图书库存（供借阅服务内部调用）
     @PostMapping("/update-stock")
-    public ResponseEntity<Void> updateBookStock(@RequestBody BookDTO bookDTO) {
-        bookService.updateBookStock(bookDTO);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> updateBookStock(
+            @RequestBody BookDTO bookDTO,
+            @RequestHeader("Authorization") String tk) {
+
+        // =============== 负载均衡日志 ===============
+        log.info("[负载均衡]-处理请求 [updateBookStock] - 图书ID: {} | 实例: {} | 端口: {}",
+                bookDTO.getId(), instanceId, serverPort);
+
+        try {
+            bookService.updateBookStock(bookDTO);
+            log.info("更新图书库存成功 - 图书ID: {}, 可用副本数: {}",
+                    bookDTO.getId(), bookDTO.getAvailableCopies());
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("更新图书库存失败: {}", e.getMessage());
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    // 添加权限验证方法（根据您的实际情况调整）
+    private boolean isValidAdminToken(String token) {
+        // 方法1：直接使用您已有的tools
+        // return tools.isAdmin(token);
+
+        // 方法2：简化验证，只检查Token是否有效
+        if (token == null || !token.startsWith("Bearer ")) {
+            return false;
+        }
+
+        // 检查是否是特定的服务Token
+        String expectedToken = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzY2MjM4NDg0LCJleHAiOjE4NTI2Mzg0ODR9.ARaGr0dOujE3vd6t5eJXCcckGFrOb3l6jAEVmIRcN4Y";
+        return expectedToken.equals(token);
     }
 }
